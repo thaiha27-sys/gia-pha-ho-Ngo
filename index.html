@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gia Phả Họ Ngô — Tiên Tổ 2004</title>
+<style>
+  :root{
+    --paper:#F6EFE3; --ink:#241C15; --cinnabar:#A8341F; --gold:#B8862E;
+    --jade:#3F5B4A; --line:#D8C8A8; --card:#FFFBF2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--paper);color:var(--ink);font-family:'Noto Serif','Georgia',serif;line-height:1.5;}
+  header{padding:26px 5vw 20px;border-bottom:3px double var(--gold);background:linear-gradient(180deg,#fffaf0,var(--paper));text-align:center;}
+  header .seal{width:50px;height:50px;border:2px solid var(--cinnabar);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;color:var(--cinnabar);font-weight:700;font-size:18px;}
+  header h1{font-size:clamp(20px,3vw,30px);letter-spacing:.03em;color:var(--cinnabar);}
+  header p{margin-top:4px;opacity:.7;font-size:13px;font-style:italic;}
+  nav{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;padding:12px 5vw;background:var(--ink);}
+  nav button{background:none;border:1px solid transparent;color:#EFE3CC;padding:8px 16px;font-family:inherit;font-size:14px;cursor:pointer;border-radius:3px;}
+  nav button:hover{border-color:var(--gold);}
+  nav button.active{background:var(--cinnabar);color:#fff;}
+  main{padding:26px 5vw 60px;max-width:1180px;margin:0 auto;}
+  section{display:none;}
+  section.active{display:block;}
+  h2.t{font-size:20px;color:var(--cinnabar);border-bottom:2px solid var(--line);padding-bottom:8px;margin-bottom:18px;display:flex;align-items:center;gap:10px;justify-content:space-between;}
+  h2.t::before{content:'';width:7px;height:7px;background:var(--gold);display:inline-block;transform:rotate(45deg);}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .toolbar input,.toolbar select{font-family:inherit;padding:8px 12px;border:1px solid var(--line);border-radius:6px;background:var(--card);font-size:13.5px;}
+  .toolbar input{flex:1;min-width:180px;}
+  .stat{font-size:12.5px;color:#7a6e5a;margin-bottom:14px;}
+
+  .chi-block{margin-bottom:26px;}
+  .chi-title{font-size:15px;font-weight:700;color:var(--jade);margin-bottom:10px;padding:6px 12px;background:#EAF0E8;border-radius:5px;display:inline-block;}
+  .gen-row{margin-bottom:10px;}
+  .gen-label{font-size:11.5px;letter-spacing:.06em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;}
+  .people{display:flex;flex-wrap:wrap;gap:8px;}
+  .person{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:7px 11px;font-size:13px;cursor:pointer;transition:.15s;}
+  .person:hover{border-color:var(--cinnabar);background:#FFF3E6;}
+  .person .nm{font-weight:700;}
+  .person .yr{color:#9a8d70;font-size:11.5px;}
+
+  .profile-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px;max-width:600px;margin:18px auto 0;}
+  .profile-card h3{color:var(--cinnabar);font-size:18px;margin-bottom:10px;}
+  .profile-card .row{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--line);font-size:13.5px;}
+  .profile-card .row span:first-child{min-width:120px;color:#7a6e5a;flex-shrink:0;}
+  .empty{text-align:center;color:#9a8d70;padding:30px 0;font-style:italic;}
+
+  form.proposal{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:24px;max-width:640px;margin:0 auto;}
+  form.proposal .f{margin-bottom:14px;}
+  form.proposal label{display:block;font-size:13px;color:#5a5040;margin-bottom:4px;}
+  form.proposal input,form.proposal select,form.proposal textarea{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:6px;font-family:inherit;font-size:14px;background:#fff;}
+  form.proposal textarea{resize:vertical;min-height:60px;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .btn{background:var(--cinnabar);color:#fff;border:none;padding:11px 24px;border-radius:6px;font-family:inherit;font-size:14.5px;cursor:pointer;}
+  .btn.secondary{background:var(--jade);}
+  .btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);}
+  .note{font-size:12.5px;color:#9a8d70;margin-top:10px;}
+
+  .queue-item{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin-bottom:12px;}
+  .queue-item .tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;color:#fff;margin-bottom:6px;}
+  .tag.add{background:var(--jade);} .tag.edit{background:var(--gold);}
+  .queue-item .actions{display:flex;gap:8px;margin-top:10px;}
+  .queue-item .actions button{padding:7px 16px;font-size:13px;border-radius:5px;border:none;cursor:pointer;font-family:inherit;}
+  .approve{background:var(--jade);color:#fff;} .reject{background:#a83c3c;color:#fff;}
+  .queue-empty{text-align:center;color:#9a8d70;padding:30px;font-style:italic;}
+  .history{font-size:12px;color:#7a6e5a;margin-top:6px;}
+
+  footer{text-align:center;padding:18px;color:#9a8d70;font-size:12px;border-top:1px solid var(--line);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="seal">吳</div>
+  <h1>GIA PHẢ TIÊN TỔ HỌ NGÔ</h1>
+  <p>Thôn Tân Thọ, Thị trấn Liễu Đề — Số hóa từ bản biên soạn năm 2004</p>
+</header>
+
+<nav id="nav">
+  <button data-tab="tree" class="active">Cây gia phả</button>
+  <button data-tab="propose">Đề xuất / Cập nhật</button>
+  <button data-tab="admin">Khu vực Admin duyệt</button>
+</nav>
+
+<main>
+
+  <section id="tree" class="active">
+    <h2 class="t">Danh sách dòng họ theo Chi <span class="stat" id="statCount"></span></h2>
+    <div class="toolbar">
+      <input id="searchBox" placeholder="Tìm theo họ tên...">
+      <select id="chiFilter"><option value="">-- Tất cả các Chi --</option></select>
+    </div>
+    <div id="treeRoot"></div>
+    <div id="profileWrap"><div class="empty">Bấm vào một người trong danh sách để xem hồ sơ chi tiết.</div></div>
+  </section>
+
+  <section id="propose">
+    <h2 class="t">Đề xuất bổ sung / cập nhật thông tin</h2>
+    <form class="proposal" onsubmit="submitProposal(event)">
+      <div class="f">
+        <label>Loại đề xuất</label>
+        <select id="pType">
+          <option value="edit">Cập nhật người đã có trong gia phả</option>
+          <option value="add">Bổ sung người mới (con/cháu mới sinh, hoặc người bị thiếu)</option>
+        </select>
+      </div>
+      <div class="f" id="pExistingWrap">
+        <label>Chọn người cần cập nhật</label>
+        <select id="pExisting"><option value="">-- Chọn từ danh sách --</option></select>
+      </div>
+      <div class="grid2">
+        <div class="f"><label>Họ và tên *</label><input id="pName" required></div>
+        <div class="f"><label>Thuộc Chi</label><input id="pChi" placeholder="VD: Ngành II - Chi 1..."></div>
+      </div>
+      <div class="grid2">
+        <div class="f"><label>Năm sinh</label><input id="pBorn"></div>
+        <div class="f"><label>Năm mất (nếu có)</label><input id="pDied"></div>
+      </div>
+      <div class="grid2">
+        <div class="f"><label>Số điện thoại</label><input id="pPhone" placeholder="Của chính người này hoặc người đại diện"></div>
+        <div class="f"><label>Email</label><input id="pEmail"></div>
+      </div>
+      <div class="f"><label>Con của ông/bà (nếu là bổ sung mới)</label><input id="pParent" placeholder="Tên cha/mẹ đã có trong gia phả"></div>
+      <div class="f"><label>Ghi chú / nội dung đề xuất</label><textarea id="pNote" placeholder="VD: bổ sung ngày giỗ, mộ chí, nghề nghiệp, ảnh..."></textarea></div>
+      <div class="f"><label>Người đề xuất (họ tên + quan hệ với người trên)</label><input id="pSubmitter" placeholder="VD: Ngô Văn X, con trai"></div>
+      <button class="btn" type="submit">Gửi đề xuất chờ duyệt</button>
+      <p class="note">Đề xuất sẽ hiển thị trong "Khu vực Admin duyệt" — Trưởng họ/Admin chi họ xác nhận trước khi đưa vào gia phả chính thức. Đây là bản demo giao diện: dữ liệu đề xuất chỉ lưu tạm trong phiên làm việc này, chưa kết nối máy chủ lưu trữ thật.</p>
+    </form>
+  </section>
+
+  <section id="admin">
+    <h2 class="t">Hàng chờ duyệt <span class="stat" id="queueCount"></span></h2>
+    <div id="queueList"></div>
+  </section>
+
+</main>
+
+<footer>Bản demo Giai đoạn 2-3 — Hệ thống Gia phả số & Ngân hàng Ký ức Dòng họ Ngô</footer>
+
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbxLBeBqF6YL0ANNseDED5MI54WP0TKEdnXM5iGuXmZw4dStyU4-kjhOCXFThka6YL8y/exec';
+let members = [];
+let queue = [];
+
+async function loadThanhVienFromAPI(){
+  try{
+    const res = await fetch(`${API_URL}?action=listThanhVien`);
+    const data = await res.json();
+    if(Array.isArray(data)){
+      members = data.map(r => ({
+        id: r.ID, hoten: r.HoTen||'', chiho: r.ChiHo||'', doi: String(r.Doi||''),
+        sott: String(r.SoTT_Goc||''), namsinh: String(r.NamSinh||''), nammat: String(r.NamMat||''),
+        ngaygio: String(r.NgayGio||''), ghichu: r.GhiChu||'', congoc: r.Con_Goc_ChuaXacMinh||'',
+        sdt: r.SoDienThoai||'', email: r.Email||''
+      }));
+    }
+  }catch(err){ console.error('Loi tai du lieu ThanhVien:', err); alert('Khong tai duoc du lieu tu Google Sheet. Kiem tra duong truyen/URL Apps Script.'); }
+  renderChiFilter_safe(); renderTree();
+}
+
+async function loadChoDuyetFromAPI(){
+  try{
+    const res = await fetch(`${API_URL}?action=listChoDuyet`);
+    const data = await res.json();
+    queue = (Array.isArray(data)?data:[]).map(r=>({
+      qid: r.MaDeXuat,
+      type: r.LoaiDeXuat,
+      status: r.TrangThaiDuyet==='Cho_duyet' ? 'pending' : (r.TrangThaiDuyet==='Da_duyet' ? 'approved' : 'rejected'),
+      time: r.ThoiGianDeXuat,
+      payload: {name:r.HoTen, chi:r.ChiHo, born:r.NamSinh, died:r.NamMat, phone:r.SoDienThoai, email:r.Email,
+        parent:r.ConCuaAi_TenChaMe, note:r.GhiChu, submitter:r.NguoiDeXuat}
+    }));
+  }catch(err){ console.error('Loi tai hang cho duyet:', err); }
+  renderQueue();
+}
+
+function chiList(){
+  return [...new Set(members.map(m=>m.chiho))];
+}
+
+function renderChiFilter(){
+  const sel = document.getElementById('chiFilter');
+  chiList().forEach(c=>{
+    const o = document.createElement('option'); o.value=c; o.textContent=c.split(' (')[0];
+    sel.appendChild(o);
+  });
+  const psel = document.getElementById('pExisting');
+  members.forEach(m=>{
+    const o = document.createElement('option'); o.value=m.id;
+    o.textContent = `${m.hoten} (Đời ${m.doi||'?'}, ${m.chiho.split(' (')[0]})`;
+    psel.appendChild(o);
+  });
+}
+
+function groupData(list){
+  const byChi = {};
+  list.forEach(m=>{
+    byChi[m.chiho] = byChi[m.chiho] || {};
+    const d = m.doi || '?';
+    byChi[m.chiho][d] = byChi[m.chiho][d] || [];
+    byChi[m.chiho][d].push(m);
+  });
+  return byChi;
+}
+
+function renderTree(){
+  const q = document.getElementById('searchBox').value.trim().toLowerCase();
+  const chiF = document.getElementById('chiFilter').value;
+  let list = members;
+  if(chiF) list = list.filter(m=>m.chiho===chiF);
+  if(q) list = list.filter(m=>m.hoten.toLowerCase().includes(q));
+  document.getElementById('statCount').textContent = `(${list.length} / ${members.length} người)`;
+
+  const root = document.getElementById('treeRoot');
+  root.innerHTML = '';
+  const grouped = groupData(list);
+  Object.keys(grouped).forEach(chi=>{
+    const block = document.createElement('div'); block.className='chi-block';
+    block.innerHTML = `<div class="chi-title">${chi}</div>`;
+    Object.keys(grouped[chi]).sort((a,b)=>(parseInt(a)||99)-(parseInt(b)||99)).forEach(doi=>{
+      const genDiv = document.createElement('div'); genDiv.className='gen-row';
+      genDiv.innerHTML = `<div class="gen-label">Đời ${doi}</div>`;
+      const peopleDiv = document.createElement('div'); peopleDiv.className='people';
+      grouped[chi][doi].forEach(m=>{
+        const p = document.createElement('div'); p.className='person';
+        p.onclick = ()=>showProfile(m.id);
+        p.innerHTML = `<span class="nm">${m.hoten.split(' / ')[0]}</span> <span class="yr">${m.namsinh||'?'}${m.nammat?(' – '+m.nammat):''}</span>`;
+        peopleDiv.appendChild(p);
+      });
+      genDiv.appendChild(peopleDiv);
+      block.appendChild(genDiv);
+    });
+    root.appendChild(block);
+  });
+}
+
+function showProfile(id){
+  const m = members.find(x=>x.id===id);
+  const wrap = document.getElementById('profileWrap');
+  wrap.innerHTML = `
+    <div class="profile-card">
+      <h3>${m.hoten}</h3>
+      <div class="row"><span>Mã số</span><span>${m.id}</span></div>
+      <div class="row"><span>Thuộc Chi</span><span>${m.chiho}</span></div>
+      <div class="row"><span>Đời thứ</span><span>${m.doi||'chưa rõ'}</span></div>
+      <div class="row"><span>Số TT (bản gốc)</span><span>${m.sott||'—'}</span></div>
+      <div class="row"><span>Năm sinh – mất</span><span>${m.namsinh||'?'} – ${m.nammat||'nay'}</span></div>
+      <div class="row"><span>Ngày giỗ</span><span>${m.ngaygio||'—'}</span></div>
+      <div class="row"><span>Số điện thoại</span><span>${m.sdt||'Chưa có — mời con cháu bổ sung'}</span></div>
+      <div class="row"><span>Email</span><span>${m.email||'Chưa có'}</span></div>
+      ${m.ghichu ? `<div class="row"><span>Ghi chú gốc</span><span>${m.ghichu}</span></div>` : ''}
+      ${m.congoc ? `<div class="row"><span>Con (chưa xác minh)</span><span>${m.congoc}</span></div>` : ''}
+    </div>`;
+}
+
+document.getElementById('searchBox').addEventListener('input', renderTree);
+document.getElementById('chiFilter').addEventListener('change', renderTree);
+
+// ===== PROPOSAL FORM =====
+document.getElementById('pType').addEventListener('change', e=>{
+  document.getElementById('pExistingWrap').style.display = e.target.value==='edit' ? 'block' : 'none';
+});
+
+async function submitProposal(e){
+  e.preventDefault();
+  const type = document.getElementById('pType').value;
+  const idLienQuan = document.getElementById('pExisting').value;
+  const params = new URLSearchParams({
+    action: 'submitProposal',
+    loaiDeXuat: type,
+    idLienQuan: idLienQuan,
+    hoTen: document.getElementById('pName').value,
+    chiHo: document.getElementById('pChi').value,
+    namSinh: document.getElementById('pBorn').value,
+    namMat: document.getElementById('pDied').value,
+    soDienThoai: document.getElementById('pPhone').value,
+    email: document.getElementById('pEmail').value,
+    conCuaAi: document.getElementById('pParent').value,
+    ghiChu: document.getElementById('pNote').value,
+    nguoiDeXuat: document.getElementById('pSubmitter').value,
+  });
+  try{
+    const res = await fetch(API_URL, { method:'POST', body: params });
+    const data = await res.json();
+    if(data.error){ alert('Lỗi gửi đề xuất: '+data.error); return; }
+    e.target.reset();
+    document.getElementById('pExistingWrap').style.display='block';
+    await loadChoDuyetFromAPI();
+    alert('Đã gửi đề xuất ('+data.maDeXuat+') — vui lòng chờ Admin/Trưởng họ duyệt trong mục "Khu vực Admin duyệt".');
+  }catch(err){
+    alert('Không gửi được đề xuất, kiểm tra đường truyền.');
+    console.error(err);
+  }
+}
+
+function renderQueue(){
+  document.getElementById('queueCount').textContent = `(${queue.filter(q=>q.status==='pending').length} đang chờ / ${queue.length} tổng)`;
+  const list = document.getElementById('queueList');
+  if(queue.length===0){ list.innerHTML = '<div class="queue-empty">Chưa có đề xuất nào.</div>'; return; }
+  list.innerHTML = queue.slice().reverse().map(q=>`
+    <div class="queue-item">
+      <span class="tag ${q.type==='add'?'add':'edit'}">${q.type==='add'?'BỔ SUNG MỚI':'CẬP NHẬT'}</span>
+      <div style="font-weight:700;">${q.payload.name}</div>
+      <div style="font-size:13px;color:#5a5040;">
+        ${q.payload.chi ? 'Chi: '+q.payload.chi+'<br>':''}
+        ${q.payload.born ? 'Sinh: '+q.payload.born+' ':''}${q.payload.died ? '– Mất: '+q.payload.died:''}
+        ${q.payload.parent ? '<br>Con của: '+q.payload.parent:''}
+        ${q.payload.phone ? '<br>SĐT: '+q.payload.phone:''}
+        ${q.payload.email ? ' — Email: '+q.payload.email:''}
+        ${q.payload.note ? '<br>Ghi chú: '+q.payload.note:''}
+      </div>
+      <div class="history">Người đề xuất: ${q.payload.submitter||'(chưa ghi)'} — gửi lúc ${q.time} — trạng thái: <b>${q.status==='pending'?'Chờ duyệt':(q.status==='approved'?'Đã duyệt':'Đã từ chối')}</b></div>
+      ${q.status==='pending' ? `<div class="actions">
+        <button class="approve" onclick="decide('${q.qid}','approve')">Duyệt</button>
+        <button class="reject" onclick="decide('${q.qid}','reject')">Từ chối</button>
+      </div>` : ''}
+    </div>`).join('');
+}
+
+async function decide(maDeXuat, action){
+  const nguoiDuyet = prompt('Nhập email Admin để xác nhận duyệt:');
+  if(!nguoiDuyet) return;
+  try{
+    const params = new URLSearchParams({ action, maDeXuat, nguoiDuyet });
+    const res = await fetch(API_URL, { method:'POST', body: params });
+    const data = await res.json();
+    if(data.error){ alert('Lỗi: '+data.error); return; }
+    await loadChoDuyetFromAPI();
+    await loadThanhVienFromAPI();
+  }catch(err){
+    alert('Không thực hiện được, kiểm tra đường truyền.');
+    console.error(err);
+  }
+}
+function renderChiFilter_safe(){
+  const sel = document.getElementById('chiFilter');
+  sel.innerHTML = '<option value="">-- Tất cả các Chi --</option>';
+  chiList().forEach(c=>{ const o=document.createElement('option'); o.value=c; o.textContent=c.split(' (')[0]; sel.appendChild(o); });
+  const psel = document.getElementById('pExisting');
+  psel.innerHTML = '<option value="">-- Chọn từ danh sách --</option>';
+  members.forEach(m=>{
+    const o = document.createElement('option'); o.value=m.id;
+    o.textContent = `${m.hoten} (Đời ${m.doi||'?'}, ${m.chiho.split(' (')[0]})`;
+    psel.appendChild(o);
+  });
+}
+
+// ===== NAV =====
+document.querySelectorAll('nav button').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('main section').forEach(s=>s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+loadThanhVienFromAPI();
+loadChoDuyetFromAPI();
+</script>
+</body>
+</html>
