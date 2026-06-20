@@ -363,14 +363,24 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyX9DEDJ9XT1m5C
 
 let allMembers = [], pendingItems = [], currentAdminEmail = '', prefaceCollapsed = false;
 
-// === KIỂM TRA TRẠNG THÁI (dùng cột TrangThai là nguồn chính xác) ===
+// === KIỂM TRA TRẠNG THÁI ===
+// Nguồn chính: cột TrangThai ("Đã mất" = mất, trống = còn sống)
+// Các giá trị ghi chú khác ("Chính thức...", "Chưa xác minh"...) → bỏ qua, xét NamMat
 function isDead(m) {
-  const ts = (m.TrangThai || '').trim().toLowerCase();
-  // Cột TrangThai có giá trị rõ → ưu tiên
-  if (ts.includes('mất') || ts.includes('mat') || ts === 'chết' || ts === 'chet' || ts === 'dead') return true;
-  if (ts.includes('sống') || ts.includes('song') || ts === 'alive') return false;
-  // Fallback: nếu TrangThai trống thì xem NamMat
-  return !!(m.NamMat && m.NamMat.trim() !== '' && m.NamMat.trim() !== '0');
+  const ts = (m.TrangThai || '').trim();
+  const tsL = ts.toLowerCase();
+  if (tsL.includes('mất') || tsL === 'dead' || tsL === 'chet' || tsL === 'chết') return true;
+  if (tsL.includes('sống') || tsL === 'alive') return false;
+  // Nếu TrangThai trống hoặc là ghi chú khác → xét NamMat
+  // NamMat hợp lệ: là số năm (4 chữ số), không phải "x" hay placeholder
+  const nm = (m.NamMat || '').trim();
+  return /^\d{3,4}$/.test(nm); // năm hợp lệ dạng số
+}
+
+// Lấy năm mất hiển thị được (loại bỏ "x", placeholder)
+function getValidNamMat(m) {
+  const nm = (m.NamMat || '').trim();
+  return /^\d{3,4}$/.test(nm) ? nm : '';
 }
 
 // === INIT ===
@@ -433,7 +443,7 @@ function memberCardHTML(m) {
     <div class="m-name">${esc(m.HoTen||'')}</div>
     <div class="m-info">
       ${m.Doi?'📍 Đời '+m.Doi:''}${m.ChiHo?' · '+m.ChiHo:''}<br>
-      ${m.NamSinh?'🎂 '+m.NamSinh:''}${dec?' – '+m.NamMat:(m.NamSinh?' (còn sống)':'')}
+      ${m.NamSinh?'🎂 '+m.NamSinh:''}${dec?' – '+(getValidNamMat(m)||'?'):(m.NamSinh?' (còn sống)':'')}
       ${m.NgheNghiep?'<br>💼 '+esc(m.NgheNghiep):''}
     </div>
   </div>`;
@@ -454,7 +464,12 @@ function openMember(id) {
     ['Quê quán', m.QueQuan||'—'], ['Nơi ở hiện tại', m.NoiO||'—'],
     ['Nghề nghiệp', m.NgheNghiep||'—'], ['Điện thoại', m.SoDienThoai||'—'], ['Email', m.Email||'—'],
   ];
-  if (dec) { info.push(['Năm mất', m.NamMat]); info.push(['Ngày giỗ', m.NgayGio||'—']); info.push(['Nơi đặt mộ', m.NoiDatMo||'—']); }
+  if (dec) {
+    const namMatHienThi = getValidNamMat(m) || '—';
+    info.push(['Năm mất', namMatHienThi]);
+    info.push(['Ngày giỗ', m.NgayGio||'—']);
+    info.push(['Nơi đặt mộ', m.NoiDatMo||'—']);
+  }
   const infoGrid = info.map(([l,v]) => `<div class="info-item"><label>${l}</label><span>${esc(String(v))}</span></div>`).join('');
   const father = allMembers.find(x => x.ID === m.ID_Cha);
   const mother = allMembers.find(x => x.ID === m.ID_Me);
@@ -486,7 +501,7 @@ function buildMiniTree(m, father, mother, spouse, children) {
     const d = isDead(p);
     return `<div class="tree-node ${cls}" onclick="openMember('${p.ID}');closeMemberModalDirect();">
       <div class="tn-name">${esc(p.HoTen||'')}</div>
-      <div class="tn-year">${p.NamSinh||''}${d?' – '+p.NamMat:''}</div>
+      <div class="tn-year">${p.NamSinh||''}${d?' – '+(getValidNamMat(p)||''):''}</div>
     </div>`;
   };
   let h = '';
@@ -515,7 +530,7 @@ function renderTree() {
       const d = isDead(m);
       return `<div class="tree-card tc-${m.GioiTinh==='Nữ'?'female':'male'} ${d?'tc-deceased':''}" onclick="openMember('${esc(m.ID)}')">
         <div class="tc-name">${esc(m.HoTen||'')}</div>
-        <div class="tc-year">${m.NamSinh||''}${d?' – '+m.NamMat:''}</div>
+        <div class="tc-year">${m.NamSinh||''}${d?' – '+(getValidNamMat(m)||''):''}</div>
         <div class="tc-rel">${m.ChiHo||''}</div>
       </div>`;
     }).join('');
