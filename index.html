@@ -303,8 +303,9 @@ nav button.active { background: var(--gold); color: var(--red); font-weight: 700
       <label>Ảnh (URL link trực tiếp)</label>
       <input type="url" id="fAnhURL" placeholder="Dán link ảnh hoặc link Google Drive...">
       <small style="color:var(--muted);font-size:0.75rem;">
-        Google Drive: Mở ảnh → nhấn nút <strong>Chia sẻ</strong> → chọn <strong>Bất kỳ ai có đường liên kết</strong> → copy link dán vào đây.<br>
-        Hệ thống tự chuyển đổi sang định dạng hiển thị được.
+        ⚠️ <strong>Lưu ý:</strong> Phải dùng link <u>file ảnh</u>, không dùng link thư mục.<br>
+        <strong>Cách lấy link đúng:</strong> Vào Google Drive → click chuột phải vào <u>file ảnh</u> → <strong>Chia sẻ</strong> → đặt thành <strong>"Bất kỳ ai có đường liên kết"</strong> → <strong>Sao chép đường liên kết</strong> → dán vào đây.<br>
+        Link đúng có dạng: <code>https://drive.google.com/file/d/ABC.../view</code>
       </small>
     </div>
     <div id="addNewFields" style="display:none;">
@@ -459,15 +460,22 @@ function openMember(id) {
   const photo = modalImgSrc
     ? `<img src="${esc(modalImgSrc)}" class="profile-photo" loading="lazy" onerror="this.outerHTML='<div class=\\'profile-photo-placeholder\\'>${m.GioiTinh==='Nữ'?'👩':'👨'}</div>'">`
     : `<div class="profile-photo-placeholder">${m.GioiTinh==='Nữ'?'👩':'👨'}</div>`;
+  // Thông tin chung (luôn hiển thị)
   let info = [
-    ['Giới tính', m.GioiTinh||'—'], ['Năm sinh', m.NamSinh||'—'],
-    ['Quê quán', m.QueQuan||'—'], ['Nơi ở hiện tại', m.NoiO||'—'],
-    ['Nghề nghiệp', m.NgheNghiep||'—'], ['Điện thoại', m.SoDienThoai||'—'], ['Email', m.Email||'—'],
+    ['Giới tính', m.GioiTinh||'—'],
+    ['Năm sinh',  m.NamSinh||'—'],
+    ['Quê quán',  m.QueQuan||'—'],
   ];
-  if (dec) {
-    const namMatHienThi = getValidNamMat(m) || '—';
-    info.push(['Năm mất', namMatHienThi]);
-    info.push(['Ngày giỗ', m.NgayGio||'—']);
+  if (!dec) {
+    // Còn sống: hiện thêm thông tin liên lạc & sinh hoạt
+    info.push(['Nơi ở hiện tại', m.NoiO||'—']);
+    info.push(['Nghề nghiệp',    m.NgheNghiep||'—']);
+    info.push(['Điện thoại',     m.SoDienThoai||'—']);
+    info.push(['Email',          m.Email||'—']);
+  } else {
+    // Đã mất: hiện thông tin hậu sự, ẩn liên lạc cá nhân
+    info.push(['Năm mất',    getValidNamMat(m)||'—']);
+    info.push(['Ngày giỗ',  m.NgayGio||'—']);
     info.push(['Nơi đặt mộ', m.NoiDatMo||'—']);
   }
   const infoGrid = info.map(([l,v]) => `<div class="info-item"><label>${l}</label><span>${esc(String(v))}</span></div>`).join('');
@@ -724,20 +732,21 @@ async function doReject(indices) {
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
 
 // Chuyển đổi URL Google Drive sang dạng nhúng trực tiếp
+// Trả về null nếu URL không hợp lệ hoặc là link thư mục
 function driveUrl(url) {
   if (!url || url.trim() === '') return null;
   url = url.trim();
-  // Dạng share link: https://drive.google.com/file/d/FILE_ID/view?...
-  let m = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]{20,})/);
+  // Loại bỏ link thư mục Drive — không dùng được làm ảnh
+  if (url.includes('/drive/folders/')) return null;
+  // Dạng share link file: https://drive.google.com/file/d/FILE_ID/view
+  let m = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]{25,})/);
   if (m) return `https://lh3.googleusercontent.com/d/${m[1]}`;
-  // Dạng uc?export=view&id=FILE_ID
-  m = url.match(/[?&]id=([a-zA-Z0-9_-]{20,})/);
+  // Dạng uc?export=view&id=FILE_ID hoặc open?id=FILE_ID
+  m = url.match(/[?&]id=([a-zA-Z0-9_-]{25,})/);
   if (m) return `https://lh3.googleusercontent.com/d/${m[1]}`;
-  // Dạng open?id=FILE_ID
-  m = url.match(/open\?id=([a-zA-Z0-9_-]{20,})/);
-  if (m) return `https://lh3.googleusercontent.com/d/${m[1]}`;
-  // Dạng lh3 hoặc URL thông thường — dùng thẳng
-  return url;
+  // Dạng lh3.googleusercontent hoặc URL ảnh trực tiếp khác
+  if (url.match(/\.(jpg|jpeg|png|gif|webp)(\?.*)?$/i) || url.includes('lh3.googleusercontent')) return url;
+  return null; // URL không rõ dạng → không hiển thị ảnh lỗi
 }
 function showAlert(id, type, msg) {
   document.getElementById(id).innerHTML=`<div class="alert alert-${type}">${msg}</div>`;
