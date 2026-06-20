@@ -363,6 +363,16 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyX9DEDJ9XT1m5C
 
 let allMembers = [], pendingItems = [], currentAdminEmail = '', prefaceCollapsed = false;
 
+// === KIỂM TRA TRẠNG THÁI (dùng cột TrangThai là nguồn chính xác) ===
+function isDead(m) {
+  const ts = (m.TrangThai || '').trim().toLowerCase();
+  // Cột TrangThai có giá trị rõ → ưu tiên
+  if (ts.includes('mất') || ts.includes('mat') || ts === 'chết' || ts === 'chet' || ts === 'dead') return true;
+  if (ts.includes('sống') || ts.includes('song') || ts === 'alive') return false;
+  // Fallback: nếu TrangThai trống thì xem NamMat
+  return !!(m.NamMat && m.NamMat.trim() !== '' && m.NamMat.trim() !== '0');
+}
+
 // === INIT ===
 async function init() {
   try {
@@ -411,7 +421,7 @@ function renderMemberList() {
 }
 
 function memberCardHTML(m) {
-  const dec = m.NamMat && m.NamMat !== '' && m.NamMat !== '0';
+  const dec = isDead(m);
   const imgSrc = driveUrl(m.AnhDaiDien_URL);
   const photo = imgSrc
     ? `<img src="${esc(imgSrc)}" class="m-photo" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'m-photo-placeholder',textContent:'${m.GioiTinh==='Nữ'?'👩':'👨'}'}))">`
@@ -433,7 +443,7 @@ function memberCardHTML(m) {
 function openMember(id) {
   const m = allMembers.find(x => x.ID === id);
   if (!m) return;
-  const dec = m.NamMat && m.NamMat !== '' && m.NamMat !== '0';
+  const dec = isDead(m);
   document.getElementById('modalTitle').textContent = m.HoTen || 'Chi tiết thành viên';
   const modalImgSrc = driveUrl(m.AnhDaiDien_URL);
   const photo = modalImgSrc
@@ -473,7 +483,7 @@ function openMember(id) {
 function buildMiniTree(m, father, mother, spouse, children) {
   const node = (p, cls='') => {
     if (!p) return '';
-    const d = p.NamMat && p.NamMat !== '' && p.NamMat !== '0';
+    const d = isDead(p);
     return `<div class="tree-node ${cls}" onclick="openMember('${p.ID}');closeMemberModalDirect();">
       <div class="tn-name">${esc(p.HoTen||'')}</div>
       <div class="tn-year">${p.NamSinh||''}${d?' – '+p.NamMat:''}</div>
@@ -502,7 +512,7 @@ function renderTree() {
   document.getElementById('treeContainer').innerHTML = dois.map(doi => {
     const dm = byDoi[doi];
     const cards = dm.map(m => {
-      const d = m.NamMat && m.NamMat !== '' && m.NamMat !== '0';
+      const d = isDead(m);
       return `<div class="tree-card tc-${m.GioiTinh==='Nữ'?'female':'male'} ${d?'tc-deceased':''}" onclick="openMember('${esc(m.ID)}')">
         <div class="tc-name">${esc(m.HoTen||'')}</div>
         <div class="tc-year">${m.NamSinh||''}${d?' – '+m.NamMat:''}</div>
