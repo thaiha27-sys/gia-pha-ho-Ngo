@@ -2,7 +2,11 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Gia Phả Họ Ngô">
+<meta name="theme-color" content="#8B0000">
 <title>Gia Phả Tiên Tổ Họ Ngô</title>
 <style>
 :root {
@@ -132,7 +136,44 @@ nav button.active { background: var(--gold); color: var(--red); font-weight: 700
 .alert-error { background: #F8D7DA; color: #721C24; border: 1px solid #F5C6CB; }
 .alert-info { background: #D1ECF1; color: #0C5460; border: 1px solid #BEE5EB; }
 .empty-state { text-align: center; padding: 30px; color: var(--muted); font-size: 0.9rem; }
-@media (max-width: 600px) { .member-grid { grid-template-columns: 1fr 1fr; } .info-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } }
+/* ====== MOBILE RESPONSIVE ====== */
+@media (max-width: 600px) {
+  header .chu-ngo { font-size: 2.2rem; }
+  header h1 { font-size: 1.1rem; letter-spacing: 1px; }
+  header p { font-size: 0.72rem; }
+  nav button { font-size: 0.75rem; padding: 10px 6px; min-width: 80px; }
+  .tab { padding: 10px; }
+  .preface { padding: 14px 12px; }
+  .preface h2 { font-size: 0.9rem; }
+  .preface p { font-size: 0.82rem; }
+  .filter-bar { flex-direction: column; gap: 6px; }
+  .filter-bar input, .filter-bar select { min-width: unset; width: 100%; font-size: 0.82rem; padding: 8px 10px; }
+  .member-grid { grid-template-columns: 1fr 1fr; gap: 7px; }
+  .member-card { padding: 9px; }
+  .member-card .m-name { font-size: 0.82rem; }
+  .member-card .m-info { font-size: 0.68rem; }
+  .m-photo, .m-photo-placeholder { width: 36px; height: 36px; font-size: 1rem; }
+  .modal { border-radius: 0; max-height: 100vh; width: 100%; margin: 0; }
+  .modal-overlay { padding: 0; align-items: flex-end; }
+  .modal-header h2 { font-size: 0.95rem; }
+  .modal-body { padding: 14px; }
+  .profile-top { flex-direction: column; align-items: center; text-align: center; }
+  .profile-photo, .profile-photo-placeholder { width: 72px; height: 72px; font-size: 2rem; }
+  .info-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .form-row { grid-template-columns: 1fr; }
+  .tree-node { min-width: 70px; font-size: 0.68rem; padding: 4px 7px; }
+  .tree-card { min-width: 110px; padding: 8px 10px; }
+  .tc-name { font-size: 0.8rem; }
+  .pending-header { flex-direction: column; align-items: flex-start; }
+  .batch-actions { width: 100%; display: flex; flex-wrap: wrap; }
+  .btn-sm { padding: 7px 10px; font-size: 0.75rem; }
+  .profile-title h3 { font-size: 1.1rem; }
+  .pending-card .pc-actions { flex-wrap: wrap; }
+}
+@media (max-width: 380px) {
+  .member-grid { grid-template-columns: 1fr; }
+  nav button { font-size: 0.7rem; padding: 9px 4px; min-width: 70px; }
+}
 </style>
 </head>
 <body>
@@ -260,8 +301,11 @@ nav button.active { background: var(--gold); color: var(--red); font-weight: 700
     </div>
     <div class="form-group">
       <label>Ảnh (URL link trực tiếp)</label>
-      <input type="url" id="fAnhURL" placeholder="https://drive.google.com/uc?export=view&id=...">
-      <small style="color:var(--muted);font-size:0.75rem;">Google Drive: Chia sẻ file → copy link → đổi thành https://drive.google.com/uc?export=view&id=FILE_ID</small>
+      <input type="url" id="fAnhURL" placeholder="Dán link ảnh hoặc link Google Drive...">
+      <small style="color:var(--muted);font-size:0.75rem;">
+        Google Drive: Mở ảnh → nhấn nút <strong>Chia sẻ</strong> → chọn <strong>Bất kỳ ai có đường liên kết</strong> → copy link dán vào đây.<br>
+        Hệ thống tự chuyển đổi sang định dạng hiển thị được.
+      </small>
     </div>
     <div id="addNewFields" style="display:none;">
       <div class="form-group"><label>Con của ông/bà</label><input type="text" id="fChaMe" placeholder="VD: Con trai của Ngô Văn X (đời 7, Chi 5)"></div>
@@ -368,8 +412,9 @@ function renderMemberList() {
 
 function memberCardHTML(m) {
   const dec = m.NamMat && m.NamMat !== '' && m.NamMat !== '0';
-  const photo = m.AnhDaiDien_URL
-    ? `<img src="${esc(m.AnhDaiDien_URL)}" class="m-photo" onerror="this.style.display='none'">`
+  const imgSrc = driveUrl(m.AnhDaiDien_URL);
+  const photo = imgSrc
+    ? `<img src="${esc(imgSrc)}" class="m-photo" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'m-photo-placeholder',textContent:'${m.GioiTinh==='Nữ'?'👩':'👨'}'}))">`
     : `<div class="m-photo-placeholder">${m.GioiTinh==='Nữ'?'👩':'👨'}</div>`;
   return `<div class="member-card ${dec?'deceased':''}" onclick="openMember('${esc(m.ID)}')">
     ${photo}
@@ -390,8 +435,9 @@ function openMember(id) {
   if (!m) return;
   const dec = m.NamMat && m.NamMat !== '' && m.NamMat !== '0';
   document.getElementById('modalTitle').textContent = m.HoTen || 'Chi tiết thành viên';
-  const photo = m.AnhDaiDien_URL
-    ? `<img src="${esc(m.AnhDaiDien_URL)}" class="profile-photo" onerror="this.style.display='none'">`
+  const modalImgSrc = driveUrl(m.AnhDaiDien_URL);
+  const photo = modalImgSrc
+    ? `<img src="${esc(modalImgSrc)}" class="profile-photo" loading="lazy" onerror="this.outerHTML='<div class=\\'profile-photo-placeholder\\'>${m.GioiTinh==='Nữ'?'👩':'👨'}</div>'">`
     : `<div class="profile-photo-placeholder">${m.GioiTinh==='Nữ'?'👩':'👨'}</div>`;
   let info = [
     ['Giới tính', m.GioiTinh||'—'], ['Năm sinh', m.NamSinh||'—'],
@@ -651,6 +697,23 @@ async function doReject(indices) {
 
 // === UTILS ===
 function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+
+// Chuyển đổi URL Google Drive sang dạng nhúng trực tiếp
+function driveUrl(url) {
+  if (!url || url.trim() === '') return null;
+  url = url.trim();
+  // Dạng share link: https://drive.google.com/file/d/FILE_ID/view?...
+  let m = url.match(/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]{20,})/);
+  if (m) return `https://lh3.googleusercontent.com/d/${m[1]}`;
+  // Dạng uc?export=view&id=FILE_ID
+  m = url.match(/[?&]id=([a-zA-Z0-9_-]{20,})/);
+  if (m) return `https://lh3.googleusercontent.com/d/${m[1]}`;
+  // Dạng open?id=FILE_ID
+  m = url.match(/open\?id=([a-zA-Z0-9_-]{20,})/);
+  if (m) return `https://lh3.googleusercontent.com/d/${m[1]}`;
+  // Dạng lh3 hoặc URL thông thường — dùng thẳng
+  return url;
+}
 function showAlert(id, type, msg) {
   document.getElementById(id).innerHTML=`<div class="alert alert-${type}">${msg}</div>`;
   if (type==='success') setTimeout(()=>{const el=document.getElementById(id);if(el)el.innerHTML='';},5000);
