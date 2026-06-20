@@ -6,322 +6,133 @@
 <title>Gia Phả Tiên Tổ Họ Ngô</title>
 <style>
 :root {
-  --red: #8B0000;
-  --gold: #C8A84B;
-  --gold-light: #F5DEB3;
-  --bg: #FDF8F0;
-  --card: #FFFDF7;
-  --border: #D4AF5A;
-  --text: #2C1810;
-  --muted: #7A6040;
-  --male: #1A4A7A;
-  --female: #7A1A4A;
-  --deceased-bg: #F0EAE0;
+  --red: #8B0000; --gold: #C8A84B; --gold-light: #F5DEB3;
+  --bg: #FDF8F0; --card: #FFFDF7; --border: #D4AF5A;
+  --text: #2C1810; --muted: #7A6040;
+  --male: #1A4A7A; --female: #7A1A4A; --deceased-bg: #F0EAE0;
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
-
-/* HEADER */
-header {
-  background: linear-gradient(135deg, var(--red) 0%, #5C0000 100%);
-  color: #fff;
-  text-align: center;
-  padding: 20px 16px 16px;
-  position: relative;
-}
+header { background: linear-gradient(135deg, var(--red) 0%, #5C0000 100%); color: #fff; text-align: center; padding: 20px 16px 16px; }
 header .chu-ngo { font-size: 3rem; font-weight: 900; color: var(--gold); text-shadow: 2px 2px 6px rgba(0,0,0,0.5); display: block; }
 header h1 { font-size: 1.4rem; letter-spacing: 2px; margin: 4px 0 2px; }
 header p { font-size: 0.8rem; color: var(--gold-light); opacity: 0.9; }
-
-/* NAV TABS */
-nav {
-  display: flex;
-  background: #5C0000;
-  overflow-x: auto;
-  border-bottom: 2px solid var(--gold);
-}
-nav button {
-  flex: 1; min-width: 100px;
-  padding: 12px 8px;
-  background: transparent;
-  border: none;
-  color: var(--gold-light);
-  font-size: 0.85rem;
-  cursor: pointer;
-  transition: background 0.2s;
-  white-space: nowrap;
-}
+nav { display: flex; background: #5C0000; overflow-x: auto; border-bottom: 2px solid var(--gold); }
+nav button { flex: 1; min-width: 100px; padding: 12px 8px; background: transparent; border: none; color: var(--gold-light); font-size: 0.85rem; cursor: pointer; transition: background 0.2s; white-space: nowrap; }
 nav button:hover { background: rgba(200,168,75,0.2); }
 nav button.active { background: var(--gold); color: var(--red); font-weight: 700; }
-
-/* TABS */
 .tab { display: none; padding: 16px; max-width: 1100px; margin: 0 auto; }
 .tab.active { display: block; }
-
-/* PREFACE */
-.preface {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 20px 24px;
-  margin-bottom: 20px;
-  position: relative;
-}
-.preface::before {
-  content: '❧';
-  color: var(--gold);
-  font-size: 1.5rem;
-  position: absolute;
-  top: 12px; left: 16px;
-}
+.preface { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 20px; }
 .preface h2 { color: var(--red); font-size: 1rem; text-align: center; margin-bottom: 12px; letter-spacing: 1px; }
 .preface p { line-height: 1.8; font-size: 0.9rem; text-align: justify; margin-bottom: 10px; }
 .preface .credit { font-style: italic; font-size: 0.8rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 10px; margin-top: 12px; }
 .preface-toggle { background: none; border: 1px solid var(--border); border-radius: 4px; padding: 4px 10px; font-size: 0.75rem; color: var(--muted); cursor: pointer; float: right; }
-.preface-body { transition: max-height 0.3s ease; overflow: hidden; }
-.preface-body.collapsed { max-height: 60px; -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 100%); mask-image: linear-gradient(to bottom, black 30%, transparent 100%); }
-
-/* SEARCH & FILTER */
-.filter-bar {
-  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px;
-}
-.filter-bar input, .filter-bar select {
-  border: 1px solid var(--border); border-radius: 6px;
-  padding: 8px 12px; font-size: 0.85rem; background: #fff;
-  flex: 1; min-width: 140px;
-}
+.preface-body.collapsed { max-height: 60px; overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, black 30%, transparent 100%); mask-image: linear-gradient(to bottom, black 30%, transparent 100%); }
+.filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+.filter-bar input, .filter-bar select { border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; font-size: 0.85rem; background: #fff; flex: 1; min-width: 140px; }
 .filter-bar input:focus, .filter-bar select:focus { outline: none; border-color: var(--red); }
 .stat-bar { font-size: 0.8rem; color: var(--muted); margin-bottom: 10px; }
-
-/* MEMBER LIST */
-.member-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 10px;
-}
-.member-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 12px;
-  cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s;
-  position: relative;
-}
+.member-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.member-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 12px; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; position: relative; }
 .member-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(139,0,0,0.15); }
 .member-card.deceased { background: var(--deceased-bg); }
 .member-card .m-name { font-weight: 700; font-size: 0.95rem; color: var(--red); margin-bottom: 4px; }
 .member-card .m-info { font-size: 0.75rem; color: var(--muted); line-height: 1.6; }
-.member-card .m-badge {
-  position: absolute; top: 8px; right: 8px;
-  font-size: 0.65rem; padding: 2px 6px; border-radius: 10px;
-}
+.member-card .m-badge { position: absolute; top: 8px; right: 8px; font-size: 0.65rem; padding: 2px 6px; border-radius: 10px; }
 .badge-male { background: #E8F0F8; color: var(--male); }
 .badge-female { background: #F8E8F0; color: var(--female); }
 .badge-deceased { background: #E8E0D8; color: #666; }
-.member-card .m-photo {
-  width: 48px; height: 48px; border-radius: 50%;
-  object-fit: cover; border: 2px solid var(--border);
-  float: right; margin-left: 8px;
-}
-.member-card .m-photo-placeholder {
-  width: 48px; height: 48px; border-radius: 50%;
-  background: var(--gold-light); display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; float: right; margin-left: 8px; border: 2px solid var(--border);
-}
-
-/* MODAL */
-.modal-overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.6); z-index: 1000;
-  align-items: center; justify-content: center;
-  padding: 16px;
-}
+.m-photo { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); float: right; margin-left: 8px; }
+.m-photo-placeholder { width: 48px; height: 48px; border-radius: 50%; background: var(--gold-light); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; float: right; margin-left: 8px; border: 2px solid var(--border); }
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: center; justify-content: center; padding: 16px; }
 .modal-overlay.open { display: flex; }
-.modal {
-  background: var(--card);
-  border-radius: 12px;
-  width: 100%; max-width: 760px;
-  max-height: 90vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
-}
-.modal-header {
-  background: linear-gradient(135deg, var(--red), #5C0000);
-  color: #fff; padding: 16px 20px;
-  border-radius: 12px 12px 0 0;
-  display: flex; justify-content: space-between; align-items: center;
-  position: sticky; top: 0; z-index: 10;
-}
+.modal { background: var(--card); border-radius: 12px; width: 100%; max-width: 760px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
+.modal-header { background: linear-gradient(135deg, var(--red), #5C0000); color: #fff; padding: 16px 20px; border-radius: 12px 12px 0 0; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 10; }
 .modal-header h2 { font-size: 1.1rem; }
-.modal-close { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; line-height: 1; }
+.modal-close { background: none; border: none; color: #fff; font-size: 1.5rem; cursor: pointer; }
 .modal-body { padding: 20px; }
-
-/* PROFILE */
 .profile-top { display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start; }
-.profile-photo {
-  width: 90px; height: 90px; border-radius: 50%;
-  object-fit: cover; border: 3px solid var(--border); flex-shrink: 0;
-}
-.profile-photo-placeholder {
-  width: 90px; height: 90px; border-radius: 50%;
-  background: var(--gold-light); display: flex; align-items: center;
-  justify-content: center; font-size: 2.5rem;
-  border: 3px solid var(--border); flex-shrink: 0;
-}
+.profile-photo { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--border); flex-shrink: 0; }
+.profile-photo-placeholder { width: 90px; height: 90px; border-radius: 50%; background: var(--gold-light); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; border: 3px solid var(--border); flex-shrink: 0; }
 .profile-title h3 { font-size: 1.3rem; color: var(--red); }
 .profile-title .sub { font-size: 0.82rem; color: var(--muted); margin-top: 4px; }
 .profile-tags { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
-.tag {
-  font-size: 0.72rem; padding: 3px 8px; border-radius: 10px;
-  border: 1px solid var(--border); color: var(--muted);
-}
-
-.info-grid {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 10px; margin-bottom: 18px;
-}
-@media (max-width: 480px) { .info-grid { grid-template-columns: 1fr; } }
+.tag { font-size: 0.72rem; padding: 3px 8px; border-radius: 10px; border: 1px solid var(--border); color: var(--muted); }
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
 .info-item label { font-size: 0.72rem; color: var(--muted); display: block; margin-bottom: 2px; }
 .info-item span { font-size: 0.88rem; font-weight: 600; }
-
-/* MINI FAMILY TREE */
 .family-tree-section { margin-bottom: 18px; }
 .family-tree-section h4 { color: var(--red); font-size: 0.9rem; margin-bottom: 12px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
 .mini-tree { overflow-x: auto; }
 .tree-row { display: flex; justify-content: center; align-items: center; gap: 8px; margin: 4px 0; flex-wrap: wrap; }
-.tree-node {
-  background: var(--card); border: 1.5px solid var(--border);
-  border-radius: 6px; padding: 6px 10px; font-size: 0.75rem;
-  text-align: center; cursor: pointer; transition: all 0.15s;
-  min-width: 80px; max-width: 120px;
-}
+.tree-node { background: var(--card); border: 1.5px solid var(--border); border-radius: 6px; padding: 6px 10px; font-size: 0.75rem; text-align: center; cursor: pointer; transition: all 0.15s; min-width: 80px; max-width: 120px; }
 .tree-node:hover { border-color: var(--red); background: #FFF5F5; }
 .tree-node.current-node { background: var(--red); color: #fff; border-color: var(--red); }
 .tree-node.spouse-node { background: #FFF0F5; border-color: var(--female); }
 .tree-node.parent-node { background: #F0F5FF; border-color: var(--male); }
-.tree-node .tn-name { font-weight: 700; }
-.tree-node .tn-year { font-size: 0.65rem; color: inherit; opacity: 0.7; }
+.tn-name { font-weight: 700; }
+.tn-year { font-size: 0.65rem; opacity: 0.7; }
 .tree-connector { color: var(--gold); font-size: 0.9rem; }
 .tree-section-label { font-size: 0.7rem; color: var(--muted); text-align: center; margin: 2px 0; }
-
-/* FORM STYLES */
 .form-section { margin-bottom: 24px; }
 .form-section h3 { color: var(--red); font-size: 1rem; margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
 .form-group { margin-bottom: 14px; }
-.form-group label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 4px; color: var(--text); }
+.form-group label { display: block; font-size: 0.82rem; font-weight: 600; margin-bottom: 4px; }
 .form-group label .req { color: var(--red); }
-.form-group input, .form-group select, .form-group textarea {
-  width: 100%; border: 1px solid var(--border); border-radius: 6px;
-  padding: 9px 12px; font-size: 0.88rem; background: #fff;
-  transition: border-color 0.2s;
-}
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-  outline: none; border-color: var(--red);
-}
+.form-group input, .form-group select, .form-group textarea { width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 9px 12px; font-size: 0.88rem; background: #fff; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--red); }
 .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-@media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
 .form-group textarea { min-height: 80px; resize: vertical; }
-.btn {
-  padding: 10px 20px; border-radius: 6px; border: none;
-  font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: all 0.2s;
-}
+.btn { padding: 10px 20px; border-radius: 6px; border: none; font-size: 0.88rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
 .btn-primary { background: var(--red); color: #fff; }
 .btn-primary:hover { background: #6B0000; }
 .btn-gold { background: var(--gold); color: var(--red); }
-.btn-gold:hover { background: #A88A30; }
 .btn-secondary { background: #eee; color: var(--text); }
 .btn-danger { background: #dc3545; color: #fff; }
 .btn-sm { padding: 6px 12px; font-size: 0.78rem; }
-
-/* SEARCH MEMBER (for update form) */
 .search-member-box { position: relative; }
-.search-member-box input { width: 100%; }
-.search-results-dropdown {
-  position: absolute; top: 100%; left: 0; right: 0;
-  background: #fff; border: 1px solid var(--border);
-  border-top: none; border-radius: 0 0 6px 6px;
-  max-height: 200px; overflow-y: auto; z-index: 100;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-.search-result-item {
-  padding: 8px 12px; cursor: pointer; font-size: 0.85rem;
-  border-bottom: 1px solid #f0e8d8;
-  display: flex; justify-content: space-between; align-items: center;
-}
+.search-results-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid var(--border); border-top: none; border-radius: 0 0 6px 6px; max-height: 200px; overflow-y: auto; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+.search-result-item { padding: 8px 12px; cursor: pointer; font-size: 0.85rem; border-bottom: 1px solid #f0e8d8; display: flex; justify-content: space-between; align-items: center; }
 .search-result-item:hover { background: var(--gold-light); }
-.search-result-item .sname { font-weight: 600; }
-.search-result-item .smeta { font-size: 0.72rem; color: var(--muted); }
-.selected-member-display {
-  background: #FFF8E8; border: 1px solid var(--gold);
-  border-radius: 6px; padding: 8px 12px; margin-top: 6px;
-  font-size: 0.85rem; display: none;
-}
+.sname { font-weight: 600; }
+.smeta { font-size: 0.72rem; color: var(--muted); }
+.selected-member-display { background: #FFF8E8; border: 1px solid var(--gold); border-radius: 6px; padding: 8px 12px; margin-top: 6px; font-size: 0.85rem; display: none; }
 .selected-member-display.show { display: flex; justify-content: space-between; align-items: center; }
-
-/* ADMIN */
 .admin-login { text-align: center; padding: 40px 20px; }
 .admin-login h3 { color: var(--red); margin-bottom: 16px; }
 .admin-login input { width: 100%; max-width: 320px; padding: 10px 14px; border: 1px solid var(--border); border-radius: 6px; margin-bottom: 10px; font-size: 0.9rem; }
 .pending-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
 .pending-header h3 { color: var(--red); font-size: 1rem; }
-.batch-actions { display: flex; gap: 8px; align-items: center; }
-.pending-card {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: 8px; padding: 14px; margin-bottom: 10px;
-}
+.batch-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.pending-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 14px; margin-bottom: 10px; }
 .pending-card .pc-header { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
 .pending-card .pc-title { flex: 1; }
 .pending-card .pc-title strong { color: var(--red); font-size: 0.95rem; }
-.pending-card .pc-title .pc-meta { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
+.pending-card .pc-meta { font-size: 0.75rem; color: var(--muted); margin-top: 2px; }
 .pending-card .pc-fields { font-size: 0.82rem; background: #FAF5EC; border-radius: 6px; padding: 8px 10px; margin-bottom: 10px; }
-.pending-card .pc-fields dt { color: var(--muted); font-size: 0.72rem; display: inline; }
-.pending-card .pc-fields dd { display: inline; font-weight: 600; margin-left: 4px; margin-bottom: 4px; }
 .pending-card .pc-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .check-all-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 0.85rem; color: var(--muted); }
-
-/* TREE TAB */
-.tree-controls { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; align-items: center; }
-.tree-container { overflow-x: auto; padding: 10px 0; }
-.gen-block { margin-bottom: 0; }
+.tree-controls { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.tree-container { overflow-x: auto; }
 .gen-label { font-size: 0.72rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin: 16px 0 6px; border-left: 3px solid var(--gold); padding-left: 8px; }
 .gen-members { display: flex; flex-wrap: wrap; gap: 8px; }
-.tree-card {
-  background: var(--card); border: 1.5px solid var(--border);
-  border-radius: 8px; padding: 10px 12px; min-width: 140px;
-  cursor: pointer; transition: all 0.15s; position: relative;
-}
+.tree-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 12px; min-width: 140px; cursor: pointer; transition: all 0.15s; }
 .tree-card:hover { border-color: var(--red); box-shadow: 0 3px 10px rgba(139,0,0,0.15); }
 .tree-card.tc-male { border-left: 3px solid var(--male); }
 .tree-card.tc-female { border-left: 3px solid var(--female); }
 .tree-card.tc-deceased { background: var(--deceased-bg); }
-.tree-card .tc-name { font-weight: 700; font-size: 0.88rem; color: var(--red); }
-.tree-card .tc-year { font-size: 0.72rem; color: var(--muted); }
-.tree-card .tc-rel { font-size: 0.68rem; color: var(--muted); font-style: italic; }
-
-/* LOADING & MESSAGES */
+.tc-name { font-weight: 700; font-size: 0.88rem; color: var(--red); }
+.tc-year, .tc-rel { font-size: 0.72rem; color: var(--muted); }
 .loading { text-align: center; padding: 40px; color: var(--muted); }
-.loading .spinner { display: inline-block; width: 30px; height: 30px; border: 3px solid var(--gold-light); border-top-color: var(--red); border-radius: 50%; animation: spin 0.8s linear infinite; }
+.spinner { display: inline-block; width: 30px; height: 30px; border: 3px solid var(--gold-light); border-top-color: var(--red); border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .alert { padding: 10px 14px; border-radius: 6px; font-size: 0.85rem; margin-bottom: 12px; }
 .alert-success { background: #D4EDDA; color: #155724; border: 1px solid #C3E6CB; }
 .alert-error { background: #F8D7DA; color: #721C24; border: 1px solid #F5C6CB; }
 .alert-info { background: #D1ECF1; color: #0C5460; border: 1px solid #BEE5EB; }
 .empty-state { text-align: center; padding: 30px; color: var(--muted); font-size: 0.9rem; }
-
-/* PHOTO UPLOAD PREVIEW */
-.photo-upload-area { border: 2px dashed var(--border); border-radius: 8px; padding: 16px; text-align: center; cursor: pointer; background: #FAFAF5; }
-.photo-upload-area:hover { border-color: var(--red); }
-.photo-preview { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); margin: 8px auto; display: block; }
-.photo-hint { font-size: 0.75rem; color: var(--muted); }
-
-/* RESPONSIVE */
-@media (max-width: 600px) {
-  .member-grid { grid-template-columns: 1fr 1fr; }
-  .info-grid { grid-template-columns: 1fr; }
-  header .chu-ngo { font-size: 2.2rem; }
-  header h1 { font-size: 1.1rem; }
-}
+@media (max-width: 600px) { .member-grid { grid-template-columns: 1fr 1fr; } .info-grid { grid-template-columns: 1fr; } .form-row { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -333,16 +144,14 @@ nav button.active { background: var(--gold); color: var(--red); font-weight: 700
 </header>
 
 <nav>
-  <button class="active" onclick="switchTab('home')">🏠 Trang chủ</button>
-  <button onclick="switchTab('tree')">🌳 Cây Gia Phả</button>
-  <button onclick="switchTab('propose')">✏️ Đề xuất cập nhật</button>
-  <button onclick="switchTab('admin')">🔑 Admin</button>
+  <button class="active" onclick="switchTab('home',this)">🏠 Trang chủ</button>
+  <button onclick="switchTab('tree',this)">🌳 Cây Gia Phả</button>
+  <button onclick="switchTab('propose',this)">✏️ Đề xuất cập nhật</button>
+  <button onclick="switchTab('admin',this)">🔑 Admin</button>
 </nav>
 
-<!-- ==================== TAB HOME ==================== -->
+<!-- TAB HOME -->
 <div id="tab-home" class="tab active">
-
-  <!-- PREFACE -->
   <div class="preface">
     <button class="preface-toggle" onclick="togglePreface(this)">Thu gọn ▲</button>
     <h2>✦ LỜI TỰA GIA PHẢ ✦</h2>
@@ -359,73 +168,60 @@ nav button.active { background: var(--gold); color: var(--red); font-weight: 700
       </div>
     </div>
   </div>
-
-  <!-- FILTER BAR -->
   <div class="filter-bar">
     <input type="text" id="searchHome" placeholder="🔍 Tìm kiếm tên..." oninput="renderMemberList()">
     <select id="filterChi" onchange="renderMemberList()">
       <option value="">-- Tất cả các Chi --</option>
-      <option value="Ngành I">Ngành I – Chi trưởng</option>
-      <option value="Chi 1">Ngành II – Chi 1 (Ngô Văn Hươu)</option>
-      <option value="Chi 2">Ngành II – Chi 2 (Ngô Văn Vườn)</option>
-      <option value="Chi 3">Ngành II – Chi 3 (Ngô Văn Thoại)</option>
-      <option value="Chi 4">Ngành II – Chi 4 (Ngô Văn Bổi)</option>
-      <option value="Chi 5">Ngành II – Chi 5 (Ngô Văn Rủ)</option>
+      <option value="I">Ngành I – Chi trưởng</option>
+      <option value="1">Chi 1 (Ngô Văn Hươu)</option>
+      <option value="2">Chi 2 (Ngô Văn Vườn)</option>
+      <option value="3">Chi 3 (Ngô Văn Thoại)</option>
+      <option value="4">Chi 4 (Ngô Văn Bổi)</option>
+      <option value="5">Chi 5 (Ngô Văn Rủ)</option>
     </select>
     <select id="filterDoi" onchange="renderMemberList()">
       <option value="">-- Tất cả các Đời --</option>
-      <option value="1">Đời 1</option><option value="2">Đời 2</option>
-      <option value="3">Đời 3</option><option value="4">Đời 4</option>
-      <option value="5">Đời 5</option><option value="6">Đời 6</option>
-      <option value="7">Đời 7</option><option value="8">Đời 8</option>
-      <option value="9">Đời 9</option><option value="10">Đời 10</option>
+      <option value="1">Đời 1</option><option value="2">Đời 2</option><option value="3">Đời 3</option>
+      <option value="4">Đời 4</option><option value="5">Đời 5</option><option value="6">Đời 6</option>
+      <option value="7">Đời 7</option><option value="8">Đời 8</option><option value="9">Đời 9</option><option value="10">Đời 10</option>
     </select>
     <select id="filterGioiTinh" onchange="renderMemberList()">
       <option value="">-- Giới tính --</option>
-      <option value="Nam">Nam</option>
-      <option value="Nữ">Nữ</option>
+      <option value="Nam">Nam</option><option value="Nữ">Nữ</option>
     </select>
   </div>
   <div class="stat-bar" id="statBar">Đang tải dữ liệu...</div>
-
   <div id="memberGrid" class="member-grid">
     <div class="loading"><div class="spinner"></div><p style="margin-top:10px">Đang tải danh sách thành viên...</p></div>
   </div>
 </div>
 
-<!-- ==================== TAB TREE ==================== -->
+<!-- TAB TREE -->
 <div id="tab-tree" class="tab">
   <div class="tree-controls">
     <select id="treeFilterChi" onchange="renderTree()">
       <option value="">-- Tất cả các Chi --</option>
-      <option value="Ngành I">Ngành I</option>
-      <option value="Chi 1">Chi 1</option>
-      <option value="Chi 4">Chi 4</option>
-      <option value="Chi 5">Chi 5</option>
+      <option value="I">Ngành I</option><option value="1">Chi 1</option>
+      <option value="4">Chi 4</option><option value="5">Chi 5</option>
     </select>
-    <button class="btn btn-secondary btn-sm" onclick="expandAllTree()">Mở rộng tất cả</button>
-    <button class="btn btn-secondary btn-sm" onclick="collapseAllTree()">Thu gọn tất cả</button>
   </div>
   <div id="treeContainer" class="tree-container">
-    <div class="loading"><div class="spinner"></div><p style="margin-top:10px">Đang xây dựng cây gia phả...</p></div>
+    <div class="loading"><div class="spinner"></div></div>
   </div>
 </div>
 
-<!-- ==================== TAB PROPOSE ==================== -->
+<!-- TAB PROPOSE -->
 <div id="tab-propose" class="tab">
   <div id="proposeAlert"></div>
   <div class="form-section">
     <h3>📋 Đề xuất bổ sung / cập nhật thông tin</h3>
-
     <div class="form-group">
       <label>Loại đề xuất <span class="req">*</span></label>
       <select id="proposeType" onchange="toggleProposeType()">
         <option value="update">Cập nhật người đã có trong gia phả</option>
-        <option value="add">Bổ sung người mới (con/cháu mới sinh, hoặc người bị thiếu)</option>
+        <option value="add">Bổ sung người mới</option>
       </select>
     </div>
-
-    <!-- Search to pick existing member -->
     <div id="updateMemberSection" class="form-group">
       <label>Tìm người cần cập nhật <span class="req">*</span></label>
       <div class="search-member-box">
@@ -438,125 +234,53 @@ nav button.active { background: var(--gold); color: var(--red); font-weight: 700
       </div>
       <input type="hidden" id="selectedMemberId">
     </div>
-
-    <!-- Fields -->
     <div class="form-row">
-      <div class="form-group">
-        <label>Họ và tên <span class="req">*</span></label>
-        <input type="text" id="fHoTen" placeholder="Ngô Văn A">
-      </div>
-      <div class="form-group">
-        <label>Giới tính</label>
-        <select id="fGioiTinh">
-          <option value="">-- Chọn --</option>
-          <option value="Nam">Nam</option>
-          <option value="Nữ">Nữ</option>
-        </select>
-      </div>
+      <div class="form-group"><label>Họ và tên <span class="req">*</span></label><input type="text" id="fHoTen" placeholder="Ngô Văn A"></div>
+      <div class="form-group"><label>Giới tính</label><select id="fGioiTinh"><option value="">-- Chọn --</option><option value="Nam">Nam</option><option value="Nữ">Nữ</option></select></div>
     </div>
-
     <div class="form-row">
-      <div class="form-group">
-        <label>Thuộc Chi</label>
-        <select id="fChi">
-          <option value="">-- Chọn Chi --</option>
-          <option value="Ngành I">Ngành I – Chi trưởng</option>
-          <option value="Chi 1">Chi 1 (Ngô Văn Hươu)</option>
-          <option value="Chi 2">Chi 2 (Ngô Văn Vườn)</option>
-          <option value="Chi 3">Chi 3 (Ngô Văn Thoại)</option>
-          <option value="Chi 4">Chi 4 (Ngô Văn Bổi)</option>
-          <option value="Chi 5">Chi 5 (Ngô Văn Rủ)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Đời thứ</label>
-        <input type="number" id="fDoi" placeholder="VD: 8" min="1" max="15">
-      </div>
+      <div class="form-group"><label>Thuộc Chi</label><select id="fChi"><option value="">-- Chọn --</option><option value="Ngành I">Ngành I</option><option value="Chi 1">Chi 1</option><option value="Chi 2">Chi 2</option><option value="Chi 3">Chi 3</option><option value="Chi 4">Chi 4</option><option value="Chi 5">Chi 5</option></select></div>
+      <div class="form-group"><label>Đời thứ</label><input type="number" id="fDoi" placeholder="VD: 8" min="1" max="15"></div>
     </div>
-
     <div class="form-row">
-      <div class="form-group">
-        <label>Năm sinh</label>
-        <input type="number" id="fNamSinh" placeholder="VD: 1980" min="1800" max="2030">
-      </div>
-      <div class="form-group">
-        <label>Năm mất (nếu đã mất)</label>
-        <input type="number" id="fNamMat" placeholder="Để trống nếu còn sống" min="1800" max="2030">
-      </div>
+      <div class="form-group"><label>Năm sinh</label><input type="number" id="fNamSinh" placeholder="VD: 1980"></div>
+      <div class="form-group"><label>Năm mất (nếu đã mất)</label><input type="number" id="fNamMat" placeholder="Để trống nếu còn sống"></div>
     </div>
-
     <div class="form-row">
-      <div class="form-group">
-        <label>Số điện thoại</label>
-        <input type="tel" id="fSdt" placeholder="0912 345 678">
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input type="email" id="fEmail" placeholder="email@example.com">
-      </div>
+      <div class="form-group"><label>Số điện thoại</label><input type="tel" id="fSdt" placeholder="0912 345 678"></div>
+      <div class="form-group"><label>Email</label><input type="email" id="fEmail" placeholder="email@example.com"></div>
     </div>
-
     <div class="form-row">
-      <div class="form-group">
-        <label>Quê quán gốc</label>
-        <input type="text" id="fQueQuan" placeholder="VD: Thôn Tân Thọ, Liễu Đề">
-      </div>
-      <div class="form-group">
-        <label>Địa chỉ hiện tại</label>
-        <input type="text" id="fDiaChiHienTai" placeholder="Địa chỉ đang sinh sống">
-      </div>
+      <div class="form-group"><label>Quê quán gốc</label><input type="text" id="fQueQuan" placeholder="VD: Thôn Tân Thọ, Liễu Đề"></div>
+      <div class="form-group"><label>Nơi ở hiện tại</label><input type="text" id="fDiaChiHienTai" placeholder="Địa chỉ đang sinh sống"></div>
     </div>
-
     <div class="form-row">
-      <div class="form-group">
-        <label>Nghề nghiệp</label>
-        <input type="text" id="fNgheNghiep" placeholder="VD: Giáo viên, Công chức...">
-      </div>
-      <div class="form-group" id="fNoiDatMoGroup">
-        <label>Nơi đặt mộ (nếu đã mất)</label>
-        <input type="text" id="fNoiDatMo" placeholder="VD: Nghĩa trang Thôn Tân Thọ">
-      </div>
+      <div class="form-group"><label>Nghề nghiệp</label><input type="text" id="fNgheNghiep" placeholder="VD: Giáo viên, Công chức..."></div>
+      <div class="form-group"><label>Nơi đặt mộ (nếu đã mất)</label><input type="text" id="fNoiDatMo" placeholder="VD: Nghĩa trang Thôn Tân Thọ"></div>
     </div>
-
     <div class="form-group">
-      <label>Ảnh (URL hoặc đường dẫn ảnh)</label>
-      <input type="url" id="fAnhURL" placeholder="https://... (link ảnh trực tiếp)">
-      <small style="color:var(--muted);font-size:0.75rem;">Có thể upload ảnh lên Google Drive/Photos rồi paste link vào đây.</small>
+      <label>Ảnh (URL link trực tiếp)</label>
+      <input type="url" id="fAnhURL" placeholder="https://drive.google.com/uc?export=view&id=...">
+      <small style="color:var(--muted);font-size:0.75rem;">Google Drive: Chia sẻ file → copy link → đổi thành https://drive.google.com/uc?export=view&id=FILE_ID</small>
     </div>
-
     <div id="addNewFields" style="display:none;">
-      <div class="form-group">
-        <label>Con của ông/bà (nhập tên cha/mẹ để Admin xác định)</label>
-        <input type="text" id="fChaMe" placeholder="VD: Con trai của Ngô Văn X (đời 7, Chi 5)">
-      </div>
+      <div class="form-group"><label>Con của ông/bà</label><input type="text" id="fChaMe" placeholder="VD: Con trai của Ngô Văn X (đời 7, Chi 5)"></div>
     </div>
-
-    <div class="form-group">
-      <label>Ghi chú / nội dung đề xuất <span class="req">*</span></label>
-      <textarea id="fGhiChu" placeholder="Mô tả rõ nội dung cần cập nhật hoặc bổ sung..."></textarea>
-    </div>
-
-    <div class="form-group">
-      <label>Người đề xuất <span class="req">*</span> (họ tên + quan hệ)</label>
-      <input type="text" id="fNguoiDeXuat" placeholder="VD: Ngô Văn B – con trai Ngô Văn A">
-    </div>
-
+    <div class="form-group"><label>Ghi chú / nội dung đề xuất <span class="req">*</span></label><textarea id="fGhiChu" placeholder="Mô tả rõ nội dung cần cập nhật hoặc bổ sung..."></textarea></div>
+    <div class="form-group"><label>Người đề xuất <span class="req">*</span></label><input type="text" id="fNguoiDeXuat" placeholder="VD: Ngô Văn B – con trai Ngô Văn A"></div>
     <button class="btn btn-primary" onclick="submitProposal()">📨 Gửi đề xuất chờ duyệt</button>
     <p style="font-size:0.75rem;color:var(--muted);margin-top:10px;">Đề xuất sẽ chờ Admin / Trưởng họ xác nhận trước khi đưa vào gia phả chính thức.</p>
   </div>
 </div>
 
-<!-- ==================== TAB ADMIN ==================== -->
+<!-- TAB ADMIN -->
 <div id="tab-admin" class="tab">
   <div id="adminLoginSection" class="admin-login">
     <h3>🔑 Đăng nhập Admin</h3>
     <p style="color:var(--muted);font-size:0.85rem;margin-bottom:16px;">Chỉ tài khoản được phân quyền mới có thể duyệt đề xuất.</p>
-    <input type="email" id="adminEmailInput" placeholder="Nhập email admin..." value="">
-    <br>
-    <button class="btn btn-primary" onclick="adminLogin()">Xác nhận đăng nhập</button>
-    <p style="font-size:0.75rem;color:var(--muted);margin-top:10px;">Sau khi xác nhận, hệ thống sẽ kiểm tra quyền Admin.</p>
+    <input type="email" id="adminEmailInput" placeholder="Nhập email admin...">
+    <br><button class="btn btn-primary" onclick="adminLogin()">Xác nhận đăng nhập</button>
   </div>
-
   <div id="adminPanel" style="display:none;">
     <div id="adminAlert"></div>
     <div class="pending-header">
@@ -573,337 +297,213 @@ nav button.active { background: var(--gold); color: var(--red); font-weight: 700
       <input type="checkbox" id="checkAll" onchange="toggleCheckAll(this)">
       <label for="checkAll">Chọn tất cả</label>
     </div>
-    <div id="pendingList">
-      <div class="loading"><div class="spinner"></div></div>
-    </div>
+    <div id="pendingList"><div class="loading"><div class="spinner"></div></div></div>
   </div>
 </div>
 
-<!-- ==================== MEMBER DETAIL MODAL ==================== -->
+<!-- MEMBER MODAL -->
 <div class="modal-overlay" id="memberModal" onclick="closeMemberModal(event)">
-  <div class="modal" id="memberModalContent">
+  <div class="modal">
     <div class="modal-header">
       <h2 id="modalTitle">Chi tiết thành viên</h2>
       <button class="modal-close" onclick="closeMemberModalDirect()">✕</button>
     </div>
-    <div class="modal-body" id="modalBody">
-      <!-- Filled by JS -->
-    </div>
+    <div class="modal-body" id="modalBody"></div>
   </div>
 </div>
 
 <script>
+// === CẤU HÌNH ===
+// QUAN TRỌNG: Thay URL bên dưới bằng URL Apps Script mới nhất của chị
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyX9DEDJ9XT1m5CP4aRe1pTj-qrf1G8QKBjB51nDGDARZEch_kaHoqZQOGvule5Cx2n/exec';
-let allMembers = [];
-let pendingItems = [];
-let currentAdminEmail = '';
-let prefaceCollapsed = false;
 
-// ===== INIT =====
+let allMembers = [], pendingItems = [], currentAdminEmail = '', prefaceCollapsed = false;
+
+// === INIT ===
 async function init() {
-  await loadMembers();
-}
-
-async function loadMembers() {
   try {
     const res = await fetch(APPS_SCRIPT_URL + '?action=getMembers');
     const data = await res.json();
     if (data.success) {
       allMembers = data.data || [];
-      renderMemberList();
-      renderTree();
-      populateUpdateSearch();
+      renderMemberList(); renderTree();
     } else {
-      document.getElementById('memberGrid').innerHTML = '<div class="alert alert-error">Lỗi tải dữ liệu: ' + (data.message || 'Không rõ') + '</div>';
+      document.getElementById('memberGrid').innerHTML = '<div class="alert alert-error">Lỗi tải dữ liệu: ' + (data.message||'Không rõ') + '</div>';
     }
   } catch(e) {
-    document.getElementById('memberGrid').innerHTML = '<div class="alert alert-error">Không thể kết nối đến máy chủ. Kiểm tra kết nối mạng.</div>';
+    document.getElementById('memberGrid').innerHTML = '<div class="alert alert-error">Không thể kết nối máy chủ. Kiểm tra kết nối mạng.</div>';
   }
 }
 
-// ===== TAB SWITCH =====
-function switchTab(tab) {
+function switchTab(tab, btn) {
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
   document.getElementById('tab-' + tab).classList.add('active');
-  event.currentTarget.classList.add('active');
+  if (btn) btn.classList.add('active');
 }
 
-// ===== PREFACE =====
 function togglePreface(btn) {
   prefaceCollapsed = !prefaceCollapsed;
-  const body = document.getElementById('prefaceBody');
-  body.classList.toggle('collapsed', prefaceCollapsed);
+  document.getElementById('prefaceBody').classList.toggle('collapsed', prefaceCollapsed);
   btn.textContent = prefaceCollapsed ? 'Xem đầy đủ ▼' : 'Thu gọn ▲';
 }
 
-// ===== MEMBER LIST =====
+// === MEMBER LIST ===
 function renderMemberList() {
   const search = document.getElementById('searchHome').value.toLowerCase().trim();
-  const chi = document.getElementById('filterChi').value;
-  const doi = document.getElementById('filterDoi').value;
-  const gt = document.getElementById('filterGioiTinh').value;
-
+  const chi    = document.getElementById('filterChi').value;
+  const doi    = document.getElementById('filterDoi').value;
+  const gt     = document.getElementById('filterGioiTinh').value;
   let filtered = allMembers.filter(m => {
-    if (search && !m.Ho_Ten?.toLowerCase().includes(search)) return false;
-    if (chi) {
-      const memberChi = (m.Chi || '') + (m.Nganh || '');
-      if (!memberChi.includes(chi.replace('Ngành I', 'I')) && !(m.Chi || '').includes(chi) && !(m.Nganh || '').includes(chi)) {
-        // more flexible match
-        if (chi === 'Ngành I' && (m.Nganh || '').trim() !== 'I' && (m.Chi || '').trim() !== 'Ngành I') return false;
-        if (chi !== 'Ngành I' && !(m.Chi || '').includes(chi.replace('Chi ',''))) return false;
-      }
-    }
+    if (search && !(m.HoTen||'').toLowerCase().includes(search)) return false;
+    if (chi && !(m.ChiHo||'').includes(chi)) return false;
     if (doi && String(m.Doi) !== doi) return false;
-    if (gt && m.Gioi_Tinh !== gt) return false;
+    if (gt && m.GioiTinh !== gt) return false;
     return true;
   });
-
   document.getElementById('statBar').textContent = `Hiển thị ${filtered.length} / ${allMembers.length} thành viên`;
-
-  if (!filtered.length) {
-    document.getElementById('memberGrid').innerHTML = '<div class="empty-state">Không tìm thấy thành viên phù hợp.</div>';
-    return;
-  }
-
+  if (!filtered.length) { document.getElementById('memberGrid').innerHTML = '<div class="empty-state">Không tìm thấy thành viên phù hợp.</div>'; return; }
   document.getElementById('memberGrid').innerHTML = filtered.map(m => memberCardHTML(m)).join('');
 }
 
 function memberCardHTML(m) {
-  const isDeceased = m.Nam_Mat && m.Nam_Mat !== '' && m.Nam_Mat !== '0';
-  const photo = m.AnhURL ? `<img src="${escHtml(m.AnhURL)}" class="m-photo" onerror="this.style.display='none'">`
-                         : `<div class="m-photo-placeholder">${m.Gioi_Tinh === 'Nữ' ? '👩' : '👨'}</div>`;
-  return `<div class="member-card ${isDeceased?'deceased':''}" onclick="openMember('${escHtml(m.ID)}')">
+  const dec = m.NamMat && m.NamMat !== '' && m.NamMat !== '0';
+  const photo = m.AnhDaiDien_URL
+    ? `<img src="${esc(m.AnhDaiDien_URL)}" class="m-photo" onerror="this.style.display='none'">`
+    : `<div class="m-photo-placeholder">${m.GioiTinh==='Nữ'?'👩':'👨'}</div>`;
+  return `<div class="member-card ${dec?'deceased':''}" onclick="openMember('${esc(m.ID)}')">
     ${photo}
-    <span class="m-badge ${m.Gioi_Tinh==='Nữ'?'badge-female':'badge-male'}">${m.Gioi_Tinh||'?'}</span>
-    ${isDeceased ? '<span class="m-badge badge-deceased" style="top:28px">†</span>' : ''}
-    <div class="m-name">${escHtml(m.Ho_Ten||'')}</div>
+    <span class="m-badge ${m.GioiTinh==='Nữ'?'badge-female':'badge-male'}">${m.GioiTinh||'?'}</span>
+    ${dec?'<span class="m-badge badge-deceased" style="top:28px">†</span>':''}
+    <div class="m-name">${esc(m.HoTen||'')}</div>
     <div class="m-info">
-      ${m.Doi ? '📍 Đời ' + m.Doi : ''}${m.Chi ? ' · ' + m.Chi : ''}<br>
-      ${m.Nam_Sinh ? '🎂 ' + m.Nam_Sinh : ''}${isDeceased ? ' – ' + m.Nam_Mat : (m.Nam_Sinh ? ' (còn sống)' : '')}
-      ${m.NgheNghiep ? '<br>💼 ' + escHtml(m.NgheNghiep) : ''}
+      ${m.Doi?'📍 Đời '+m.Doi:''}${m.ChiHo?' · '+m.ChiHo:''}<br>
+      ${m.NamSinh?'🎂 '+m.NamSinh:''}${dec?' – '+m.NamMat:(m.NamSinh?' (còn sống)':'')}
+      ${m.NgheNghiep?'<br>💼 '+esc(m.NgheNghiep):''}
     </div>
   </div>`;
 }
 
-// ===== MEMBER MODAL =====
+// === MODAL ===
 function openMember(id) {
   const m = allMembers.find(x => x.ID === id);
   if (!m) return;
-  const isDeceased = m.Nam_Mat && m.Nam_Mat !== '' && m.Nam_Mat !== '0';
-
-  document.getElementById('modalTitle').textContent = m.Ho_Ten || 'Chi tiết thành viên';
-
-  const photo = m.AnhURL
-    ? `<img src="${escHtml(m.AnhURL)}" class="profile-photo" onerror="this.className='profile-photo-placeholder';this.textContent='${m.Gioi_Tinh==='Nữ'?'👩':'👨'}'">`
-    : `<div class="profile-photo-placeholder">${m.Gioi_Tinh === 'Nữ' ? '👩' : '👨'}</div>`;
-
-  let infoItems = [
-    ['Giới tính', m.Gioi_Tinh || '—'],
-    ['Năm sinh', m.Nam_Sinh || '—'],
-    ['Quê quán gốc', m.QueQuan || '—'],
-    ['Địa chỉ hiện tại', m.DiaChiHienTai || '—'],
-    ['Nghề nghiệp', m.NgheNghiep || '—'],
-    ['Điện thoại', m.So_Dien_Thoai || '—'],
-    ['Email', m.Email || '—'],
+  const dec = m.NamMat && m.NamMat !== '' && m.NamMat !== '0';
+  document.getElementById('modalTitle').textContent = m.HoTen || 'Chi tiết thành viên';
+  const photo = m.AnhDaiDien_URL
+    ? `<img src="${esc(m.AnhDaiDien_URL)}" class="profile-photo" onerror="this.style.display='none'">`
+    : `<div class="profile-photo-placeholder">${m.GioiTinh==='Nữ'?'👩':'👨'}</div>`;
+  let info = [
+    ['Giới tính', m.GioiTinh||'—'], ['Năm sinh', m.NamSinh||'—'],
+    ['Quê quán', m.QueQuan||'—'], ['Nơi ở hiện tại', m.NoiO||'—'],
+    ['Nghề nghiệp', m.NgheNghiep||'—'], ['Điện thoại', m.SoDienThoai||'—'], ['Email', m.Email||'—'],
   ];
-  if (isDeceased) {
-    infoItems.push(['Năm mất', m.Nam_Mat]);
-    infoItems.push(['Ngày giỗ', m.Ngay_Gio || '—']);
-    infoItems.push(['Nơi đặt mộ', m.NoiDatMo || '—']);
-  }
-
-  const infoGrid = infoItems.map(([label, val]) =>
-    `<div class="info-item"><label>${label}</label><span>${escHtml(String(val))}</span></div>`
-  ).join('');
-
-  // MINI FAMILY TREE
+  if (dec) { info.push(['Năm mất', m.NamMat]); info.push(['Ngày giỗ', m.NgayGio||'—']); info.push(['Nơi đặt mộ', m.NoiDatMo||'—']); }
+  const infoGrid = info.map(([l,v]) => `<div class="info-item"><label>${l}</label><span>${esc(String(v))}</span></div>`).join('');
   const father = allMembers.find(x => x.ID === m.ID_Cha);
   const mother = allMembers.find(x => x.ID === m.ID_Me);
   const spouse = allMembers.find(x => x.ID === m.ID_VoChong);
   const children = allMembers.filter(x => x.ID_Cha === m.ID || x.ID_Me === m.ID);
-
-  let treeHTML = buildMiniTree(m, father, mother, spouse, children);
-
   document.getElementById('modalBody').innerHTML = `
-    <div class="profile-top">
-      ${photo}
+    <div class="profile-top">${photo}
       <div class="profile-title">
-        <h3>${escHtml(m.Ho_Ten||'')}</h3>
-        <div class="sub">
-          ${m.Nganh ? escHtml(m.Nganh) + ' · ' : ''}${m.Chi ? escHtml(m.Chi) + ' · ' : ''}Đời ${m.Doi||'?'}
-        </div>
+        <h3>${esc(m.HoTen||'')}</h3>
+        <div class="sub">${m.ChiHo?esc(m.ChiHo)+' · ':''}Đời ${m.Doi||'?'}</div>
         <div class="profile-tags">
-          ${m.Gioi_Tinh ? `<span class="tag">${m.Gioi_Tinh==='Nữ'?'👩 Nữ':'👨 Nam'}</span>` : ''}
-          ${isDeceased ? '<span class="tag">† Đã mất</span>' : '<span class="tag">🌿 Còn sống</span>'}
+          ${m.GioiTinh?`<span class="tag">${m.GioiTinh==='Nữ'?'👩 Nữ':'👨 Nam'}</span>`:''}
+          ${dec?'<span class="tag">† Đã mất</span>':'<span class="tag">🌿 Còn sống</span>'}
         </div>
       </div>
     </div>
-
     <div class="info-grid">${infoGrid}</div>
-
-    ${m.Ghi_Chu ? `<div class="alert alert-info" style="margin-bottom:16px;"><strong>Ghi chú:</strong> ${escHtml(m.Ghi_Chu)}</div>` : ''}
-
-    <div class="family-tree-section">
-      <h4>🌳 Quan hệ gia đình</h4>
-      ${treeHTML}
-    </div>
-
+    ${m.GhiChu?`<div class="alert alert-info" style="margin-bottom:16px;"><strong>Ghi chú:</strong> ${esc(m.GhiChu)}</div>`:''}
+    <div class="family-tree-section"><h4>🌳 Quan hệ gia đình</h4>${buildMiniTree(m,father,mother,spouse,children)}</div>
     <div style="text-align:right;margin-top:12px;">
-      <button class="btn btn-secondary btn-sm" onclick="proposeUpdateFor('${escHtml(m.ID)}','${escHtml(m.Ho_Ten||'')}')">✏️ Đề xuất cập nhật</button>
-    </div>
-  `;
-
+      <button class="btn btn-secondary btn-sm" onclick="proposeUpdateFor('${esc(m.ID)}','${esc(m.HoTen||'')}')">✏️ Đề xuất cập nhật</button>
+    </div>`;
   document.getElementById('memberModal').classList.add('open');
 }
 
 function buildMiniTree(m, father, mother, spouse, children) {
-  const nodeHTML = (person, cls='') => {
-    if (!person) return '';
-    const isDeceased = person.Nam_Mat && person.Nam_Mat !== '' && person.Nam_Mat !== '0';
-    return `<div class="tree-node ${cls} ${isDeceased?'':''}` + `" onclick="openMember('${person.ID}');closeMemberModalDirect();">
-      <div class="tn-name">${escHtml(person.Ho_Ten||'')}</div>
-      <div class="tn-year">${person.Nam_Sinh||''}${isDeceased?'–'+person.Nam_Mat:''}</div>
+  const node = (p, cls='') => {
+    if (!p) return '';
+    const d = p.NamMat && p.NamMat !== '' && p.NamMat !== '0';
+    return `<div class="tree-node ${cls}" onclick="openMember('${p.ID}');closeMemberModalDirect();">
+      <div class="tn-name">${esc(p.HoTen||'')}</div>
+      <div class="tn-year">${p.NamSinh||''}${d?' – '+p.NamMat:''}</div>
     </div>`;
   };
-
-  let html = '';
-
-  // Parents row
-  if (father || mother) {
-    html += `<div class="tree-section-label">Cha — Mẹ</div>
-    <div class="tree-row">
-      ${father ? nodeHTML(father, 'parent-node') : ''}
-      ${father && mother ? '<span class="tree-connector">⊕</span>' : ''}
-      ${mother ? nodeHTML(mother, 'parent-node') : ''}
-    </div>
-    <div class="tree-row"><span style="color:var(--gold);font-size:1.2rem;">↓</span></div>`;
-  }
-
-  // Current + spouse
-  html += `<div class="tree-row">
-    <div class="tree-node current-node">
-      <div class="tn-name">${escHtml(m.Ho_Ten||'')}</div>
-      <div class="tn-year" style="color:#FFD">${m.Nam_Sinh||''}</div>
-    </div>
-    ${spouse ? '<span class="tree-connector" style="font-size:1.1rem;">=</span>' + nodeHTML(spouse, 'spouse-node') : ''}
-  </div>`;
-
-  // Children
-  if (children.length) {
-    html += `<div class="tree-row"><span style="color:var(--gold);font-size:1.2rem;">↓</span></div>
-    <div class="tree-section-label">Con cái (${children.length})</div>
-    <div class="tree-row" style="flex-wrap:wrap;">
-      ${children.map(c => nodeHTML(c)).join('<span class="tree-connector" style="opacity:0.3;">|</span>')}
-    </div>`;
-  }
-
-  // Also show siblings
-  const siblings = allMembers.filter(x => x.ID !== m.ID && ((m.ID_Cha && x.ID_Cha === m.ID_Cha) || (m.ID_Me && x.ID_Me === m.ID_Me)));
-  if (siblings.length) {
-    html += `<div style="margin-top:14px;">
-      <div class="tree-section-label">Anh chị em (${siblings.length})</div>
-      <div class="tree-row" style="flex-wrap:wrap;">${siblings.slice(0,6).map(s => nodeHTML(s)).join(' ')}</div>
-      ${siblings.length > 6 ? `<div style="text-align:center;font-size:0.75rem;color:var(--muted);">...và ${siblings.length-6} người khác</div>` : ''}
-    </div>`;
-  }
-
-  return `<div class="mini-tree">${html}</div>`;
+  let h = '';
+  if (father||mother) h += `<div class="tree-section-label">Cha — Mẹ</div><div class="tree-row">${node(father,'parent-node')}${father&&mother?'<span class="tree-connector">⊕</span>':''}${node(mother,'parent-node')}</div><div class="tree-row"><span style="color:var(--gold);font-size:1.2rem;">↓</span></div>`;
+  h += `<div class="tree-row"><div class="tree-node current-node"><div class="tn-name">${esc(m.HoTen||'')}</div><div class="tn-year" style="color:#FFD">${m.NamSinh||''}</div></div>${spouse?'<span class="tree-connector" style="font-size:1.1rem;">=</span>'+node(spouse,'spouse-node'):''}</div>`;
+  if (children.length) h += `<div class="tree-row"><span style="color:var(--gold);font-size:1.2rem;">↓</span></div><div class="tree-section-label">Con cái (${children.length})</div><div class="tree-row" style="flex-wrap:wrap;">${children.map(c=>node(c)).join('<span class="tree-connector" style="opacity:0.3;">|</span>')}</div>`;
+  const sibs = allMembers.filter(x => x.ID !== m.ID && ((m.ID_Cha && x.ID_Cha === m.ID_Cha)||(m.ID_Me && x.ID_Me === m.ID_Me)));
+  if (sibs.length) h += `<div style="margin-top:14px;"><div class="tree-section-label">Anh chị em (${sibs.length})</div><div class="tree-row" style="flex-wrap:wrap;">${sibs.slice(0,6).map(s=>node(s)).join(' ')}</div>${sibs.length>6?`<div style="text-align:center;font-size:0.75rem;color:var(--muted);">...và ${sibs.length-6} người khác</div>`:''}</div>`;
+  return `<div class="mini-tree">${h}</div>`;
 }
 
-function closeMemberModal(e) {
-  if (e.target === document.getElementById('memberModal')) closeMemberModalDirect();
-}
-function closeMemberModalDirect() {
-  document.getElementById('memberModal').classList.remove('open');
-}
+function closeMemberModal(e) { if (e.target === document.getElementById('memberModal')) closeMemberModalDirect(); }
+function closeMemberModalDirect() { document.getElementById('memberModal').classList.remove('open'); }
 
-// ===== TREE TAB =====
+// === TREE TAB ===
 function renderTree() {
-  const filterChi = document.getElementById('treeFilterChi').value;
-  let members = filterChi ? allMembers.filter(m => (m.Chi||'').includes(filterChi.replace('Ngành I','')) || (m.Nganh||'').includes(filterChi)) : allMembers;
-
-  // Group by Doi
+  const fc = document.getElementById('treeFilterChi').value;
+  let members = fc ? allMembers.filter(m => (m.ChiHo||'').includes(fc)) : allMembers;
   const byDoi = {};
-  members.forEach(m => {
-    const doi = m.Doi || 'Chưa xác định';
-    if (!byDoi[doi]) byDoi[doi] = [];
-    byDoi[doi].push(m);
-  });
-
-  const dois = Object.keys(byDoi).sort((a,b) => isNaN(a) ? 1 : isNaN(b) ? -1 : Number(a)-Number(b));
-
-  if (!dois.length) {
-    document.getElementById('treeContainer').innerHTML = '<div class="empty-state">Chưa có dữ liệu để hiển thị.</div>';
-    return;
-  }
-
+  members.forEach(m => { const d = m.Doi||'?'; if (!byDoi[d]) byDoi[d]=[]; byDoi[d].push(m); });
+  const dois = Object.keys(byDoi).sort((a,b) => isNaN(a)?1:isNaN(b)?-1:Number(a)-Number(b));
+  if (!dois.length) { document.getElementById('treeContainer').innerHTML='<div class="empty-state">Chưa có dữ liệu.</div>'; return; }
   document.getElementById('treeContainer').innerHTML = dois.map(doi => {
-    const doiMembers = byDoi[doi];
-    const cards = doiMembers.map(m => {
-      const isDeceased = m.Nam_Mat && m.Nam_Mat !== '' && m.Nam_Mat !== '0';
-      return `<div class="tree-card tc-${(m.Gioi_Tinh==='Nữ'?'female':'male')} ${isDeceased?'tc-deceased':''}" onclick="openMember('${escHtml(m.ID)}')">
-        <div class="tc-name">${escHtml(m.Ho_Ten||'')}</div>
-        <div class="tc-year">${m.Nam_Sinh||''}${isDeceased ? ' – ' + m.Nam_Mat : ''}</div>
-        <div class="tc-rel">${m.Chi||m.Nganh||''}</div>
+    const dm = byDoi[doi];
+    const cards = dm.map(m => {
+      const d = m.NamMat && m.NamMat !== '' && m.NamMat !== '0';
+      return `<div class="tree-card tc-${m.GioiTinh==='Nữ'?'female':'male'} ${d?'tc-deceased':''}" onclick="openMember('${esc(m.ID)}')">
+        <div class="tc-name">${esc(m.HoTen||'')}</div>
+        <div class="tc-year">${m.NamSinh||''}${d?' – '+m.NamMat:''}</div>
+        <div class="tc-rel">${m.ChiHo||''}</div>
       </div>`;
     }).join('');
-    return `<div class="gen-block">
-      <div class="gen-label">Đời ${doi} <span style="font-weight:400">(${doiMembers.length} người)</span></div>
-      <div class="gen-members">${cards}</div>
-    </div>`;
+    return `<div><div class="gen-label">Đời ${doi} <span style="font-weight:400">(${dm.length} người)</span></div><div class="gen-members">${cards}</div></div>`;
   }).join('');
 }
 
-function expandAllTree() { /* generations are always visible */ }
-function collapseAllTree() { }
-
-// ===== PROPOSE FORM =====
+// === PROPOSE ===
 function toggleProposeType() {
-  const type = document.getElementById('proposeType').value;
-  document.getElementById('updateMemberSection').style.display = type === 'update' ? 'block' : 'none';
-  document.getElementById('addNewFields').style.display = type === 'add' ? 'block' : 'none';
+  const t = document.getElementById('proposeType').value;
+  document.getElementById('updateMemberSection').style.display = t==='update'?'block':'none';
+  document.getElementById('addNewFields').style.display = t==='add'?'block':'none';
 }
 
-function populateUpdateSearch() { /* search handled live */ }
-
-function searchMemberForUpdate(query) {
-  const dropdown = document.getElementById('updateSearchDropdown');
-  if (!query || query.length < 2) { dropdown.style.display = 'none'; return; }
-  const results = allMembers.filter(m => m.Ho_Ten?.toLowerCase().includes(query.toLowerCase())).slice(0,10);
-  if (!results.length) { dropdown.style.display = 'none'; return; }
-  dropdown.innerHTML = results.map(m =>
-    `<div class="search-result-item" onclick="selectMemberForUpdate('${escHtml(m.ID)}','${escHtml(m.Ho_Ten||'')}','${m.Doi||''}','${m.Chi||''}')">
-      <span class="sname">${escHtml(m.Ho_Ten||'')}</span>
-      <span class="smeta">Đời ${m.Doi||'?'} · ${m.Chi||''}</span>
-    </div>`
-  ).join('');
-  dropdown.style.display = 'block';
+function searchMemberForUpdate(q) {
+  const dd = document.getElementById('updateSearchDropdown');
+  if (!q || q.length < 2) { dd.style.display='none'; return; }
+  const r = allMembers.filter(m => (m.HoTen||'').toLowerCase().includes(q.toLowerCase())).slice(0,10);
+  if (!r.length) { dd.style.display='none'; return; }
+  dd.innerHTML = r.map(m => `<div class="search-result-item" onclick="selectMember('${esc(m.ID)}','${esc(m.HoTen||'')}','${m.Doi||''}','${m.ChiHo||''}')"><span class="sname">${esc(m.HoTen||'')}</span><span class="smeta">Đời ${m.Doi||'?'} · ${m.ChiHo||''}</span></div>`).join('');
+  dd.style.display = 'block';
 }
 
-function selectMemberForUpdate(id, name, doi, chi) {
+function selectMember(id, name, doi, chi) {
   document.getElementById('selectedMemberId').value = id;
   document.getElementById('selectedMemberText').textContent = name + ' (Đời ' + doi + ' · ' + chi + ')';
   document.getElementById('selectedMemberDisplay').classList.add('show');
   document.getElementById('updateSearchInput').value = '';
   document.getElementById('updateSearchDropdown').style.display = 'none';
-
-  // Pre-fill form with existing data
   const m = allMembers.find(x => x.ID === id);
   if (m) {
-    document.getElementById('fHoTen').value = m.Ho_Ten || '';
-    document.getElementById('fGioiTinh').value = m.Gioi_Tinh || '';
-    document.getElementById('fChi').value = m.Chi || '';
-    document.getElementById('fDoi').value = m.Doi || '';
-    document.getElementById('fNamSinh').value = m.Nam_Sinh || '';
-    document.getElementById('fNamMat').value = m.Nam_Mat || '';
-    document.getElementById('fSdt').value = m.So_Dien_Thoai || '';
-    document.getElementById('fEmail').value = m.Email || '';
-    document.getElementById('fQueQuan').value = m.QueQuan || '';
-    document.getElementById('fDiaChiHienTai').value = m.DiaChiHienTai || '';
-    document.getElementById('fNgheNghiep').value = m.NgheNghiep || '';
-    document.getElementById('fNoiDatMo').value = m.NoiDatMo || '';
-    document.getElementById('fAnhURL').value = m.AnhURL || '';
+    document.getElementById('fHoTen').value         = m.HoTen||'';
+    document.getElementById('fGioiTinh').value      = m.GioiTinh||'';
+    document.getElementById('fChi').value           = m.ChiHo||'';
+    document.getElementById('fDoi').value           = m.Doi||'';
+    document.getElementById('fNamSinh').value       = m.NamSinh||'';
+    document.getElementById('fNamMat').value        = m.NamMat||'';
+    document.getElementById('fSdt').value           = m.SoDienThoai||'';
+    document.getElementById('fEmail').value         = m.Email||'';
+    document.getElementById('fQueQuan').value       = m.QueQuan||'';
+    document.getElementById('fDiaChiHienTai').value = m.NoiO||'';
+    document.getElementById('fNgheNghiep').value    = m.NgheNghiep||'';
+    document.getElementById('fNoiDatMo').value      = m.NoiDatMo||'';
+    document.getElementById('fAnhURL').value        = m.AnhDaiDien_URL||'';
   }
 }
 
@@ -911,68 +511,61 @@ function clearSelectedMember() {
   document.getElementById('selectedMemberId').value = '';
   document.getElementById('selectedMemberDisplay').classList.remove('show');
   document.getElementById('updateSearchInput').value = '';
-  ['fHoTen','fGioiTinh','fChi','fDoi','fNamSinh','fNamMat','fSdt','fEmail','fQueQuan','fDiaChiHienTai','fNgheNghiep','fNoiDatMo','fAnhURL'].forEach(id => {
-    document.getElementById(id).value = '';
-  });
+  ['fHoTen','fGioiTinh','fChi','fDoi','fNamSinh','fNamMat','fSdt','fEmail','fQueQuan','fDiaChiHienTai','fNgheNghiep','fNoiDatMo','fAnhURL'].forEach(id => document.getElementById(id).value='');
 }
 
 async function submitProposal() {
-  const type = document.getElementById('proposeType').value;
   const hoTen = document.getElementById('fHoTen').value.trim();
   const ghiChu = document.getElementById('fGhiChu').value.trim();
   const nguoiDeXuat = document.getElementById('fNguoiDeXuat').value.trim();
-
-  if (!hoTen) { showAlert('proposeAlert', 'error', 'Vui lòng nhập Họ và tên.'); return; }
-  if (!ghiChu) { showAlert('proposeAlert', 'error', 'Vui lòng điền nội dung đề xuất.'); return; }
-  if (!nguoiDeXuat) { showAlert('proposeAlert', 'error', 'Vui lòng nhập thông tin người đề xuất.'); return; }
-  if (type === 'update' && !document.getElementById('selectedMemberId').value) {
-    showAlert('proposeAlert', 'error', 'Vui lòng chọn người cần cập nhật.'); return;
-  }
-
+  const type = document.getElementById('proposeType').value;
+  if (!hoTen) { showAlert('proposeAlert','error','Vui lòng nhập Họ và tên.'); return; }
+  if (!ghiChu) { showAlert('proposeAlert','error','Vui lòng điền nội dung đề xuất.'); return; }
+  if (!nguoiDeXuat) { showAlert('proposeAlert','error','Vui lòng nhập thông tin người đề xuất.'); return; }
+  if (type==='update' && !document.getElementById('selectedMemberId').value) { showAlert('proposeAlert','error','Vui lòng chọn người cần cập nhật.'); return; }
   const payload = {
-    action: 'submitProposal',
-    type,
-    ID_Ref: document.getElementById('selectedMemberId').value,
-    Ho_Ten: hoTen,
-    Gioi_Tinh: document.getElementById('fGioiTinh').value,
-    Chi: document.getElementById('fChi').value,
-    Doi: document.getElementById('fDoi').value,
-    Nam_Sinh: document.getElementById('fNamSinh').value,
-    Nam_Mat: document.getElementById('fNamMat').value,
-    So_Dien_Thoai: document.getElementById('fSdt').value,
-    Email: document.getElementById('fEmail').value,
-    QueQuan: document.getElementById('fQueQuan').value,
-    DiaChiHienTai: document.getElementById('fDiaChiHienTai').value,
-    NgheNghiep: document.getElementById('fNgheNghiep').value,
-    NoiDatMo: document.getElementById('fNoiDatMo').value,
-    AnhURL: document.getElementById('fAnhURL').value,
-    ChaMe_Ref: document.getElementById('fChaMe')?.value || '',
-    Ghi_Chu: ghiChu,
-    Nguoi_De_Xuat: nguoiDeXuat,
-    Timestamp: new Date().toISOString()
+    action:'submitProposal', type,
+    ID_Ref:         document.getElementById('selectedMemberId').value,
+    HoTen:          hoTen,
+    GioiTinh:       document.getElementById('fGioiTinh').value,
+    ChiHo:          document.getElementById('fChi').value,
+    Doi:            document.getElementById('fDoi').value,
+    NamSinh:        document.getElementById('fNamSinh').value,
+    NamMat:         document.getElementById('fNamMat').value,
+    SoDienThoai:    document.getElementById('fSdt').value,
+    Email:          document.getElementById('fEmail').value,
+    QueQuan:        document.getElementById('fQueQuan').value,
+    NoiO:           document.getElementById('fDiaChiHienTai').value,
+    NgheNghiep:     document.getElementById('fNgheNghiep').value,
+    NoiDatMo:       document.getElementById('fNoiDatMo').value,
+    AnhDaiDien_URL: document.getElementById('fAnhURL').value,
+    ChaMe_Ref:      document.getElementById('fChaMe')?.value||'',
+    GhiChu:         ghiChu,
+    Nguoi_De_Xuat:  nguoiDeXuat,
+    Timestamp:      new Date().toISOString()
   };
-
-  showAlert('proposeAlert', 'info', '⏳ Đang gửi đề xuất...');
+  showAlert('proposeAlert','info','⏳ Đang gửi đề xuất...');
   try {
-    const res = await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      body: JSON.stringify(payload)
-    });
+    const res = await fetch(APPS_SCRIPT_URL, {method:'POST', body:JSON.stringify(payload)});
     const data = await res.json();
     if (data.success) {
-      showAlert('proposeAlert', 'success', '✅ Đề xuất đã gửi thành công! Admin sẽ xem xét và phản hồi sớm.');
+      showAlert('proposeAlert','success','✅ Đề xuất đã gửi thành công!');
       clearSelectedMember();
-      document.getElementById('fGhiChu').value = '';
-      document.getElementById('fNguoiDeXuat').value = '';
-    } else {
-      showAlert('proposeAlert', 'error', '❌ Lỗi: ' + (data.message || 'Không rõ'));
-    }
-  } catch(e) {
-    showAlert('proposeAlert', 'error', '❌ Không thể gửi. Kiểm tra kết nối mạng.');
-  }
+      document.getElementById('fGhiChu').value='';
+      document.getElementById('fNguoiDeXuat').value='';
+    } else showAlert('proposeAlert','error','❌ Lỗi: '+(data.message||'Không rõ'));
+  } catch(e) { showAlert('proposeAlert','error','❌ Không thể gửi. Kiểm tra kết nối mạng.'); }
 }
 
-// ===== ADMIN =====
+function proposeUpdateFor(id, name) {
+  closeMemberModalDirect();
+  switchTab('propose', document.querySelectorAll('nav button')[2]);
+  document.getElementById('proposeType').value = 'update';
+  toggleProposeType();
+  selectMember(id, name, '', '');
+}
+
+// === ADMIN ===
 async function adminLogin() {
   const email = document.getElementById('adminEmailInput').value.trim();
   if (!email) { alert('Vui lòng nhập email.'); return; }
@@ -981,70 +574,41 @@ async function adminLogin() {
     const data = await res.json();
     if (data.isAdmin) {
       currentAdminEmail = email;
-      document.getElementById('adminLoginSection').style.display = 'none';
-      document.getElementById('adminPanel').style.display = 'block';
+      document.getElementById('adminLoginSection').style.display='none';
+      document.getElementById('adminPanel').style.display='block';
       loadPending();
-    } else {
-      alert('Email này không có quyền Admin.');
-    }
-  } catch(e) {
-    alert('Lỗi kết nối. Thử lại sau.');
-  }
+    } else alert('Email này không có quyền Admin.');
+  } catch(e) { alert('Lỗi kết nối. Thử lại sau.'); }
 }
 
 function adminLogout() {
-  currentAdminEmail = '';
-  document.getElementById('adminLoginSection').style.display = 'block';
-  document.getElementById('adminPanel').style.display = 'none';
-  document.getElementById('pendingList').innerHTML = '';
+  currentAdminEmail='';
+  document.getElementById('adminLoginSection').style.display='block';
+  document.getElementById('adminPanel').style.display='none';
 }
 
 async function loadPending() {
-  document.getElementById('pendingList').innerHTML = '<div class="loading"><div class="spinner"></div></div>';
+  document.getElementById('pendingList').innerHTML='<div class="loading"><div class="spinner"></div></div>';
   try {
     const res = await fetch(`${APPS_SCRIPT_URL}?action=getPending&adminEmail=${encodeURIComponent(currentAdminEmail)}`);
     const data = await res.json();
-    if (data.success) {
-      pendingItems = data.data || [];
-      renderPendingList();
-    } else {
-      document.getElementById('pendingList').innerHTML = '<div class="alert alert-error">' + (data.message||'Lỗi tải') + '</div>';
-    }
-  } catch(e) {
-    document.getElementById('pendingList').innerHTML = '<div class="alert alert-error">Lỗi kết nối.</div>';
-  }
+    if (data.success) { pendingItems = data.data||[]; renderPendingList(); }
+    else document.getElementById('pendingList').innerHTML='<div class="alert alert-error">'+(data.message||'Lỗi tải')+'</div>';
+  } catch(e) { document.getElementById('pendingList').innerHTML='<div class="alert alert-error">Lỗi kết nối.</div>'; }
 }
 
 function renderPendingList() {
-  if (!pendingItems.length) {
-    document.getElementById('pendingList').innerHTML = '<div class="empty-state">✅ Không có đề xuất nào đang chờ duyệt.</div>';
-    return;
-  }
-  document.getElementById('pendingList').innerHTML = pendingItems.map((p, i) => {
-    const fields = [
-      ['Loại', p.type === 'update' ? 'Cập nhật' : 'Bổ sung mới'],
-      ['Họ tên', p.Ho_Ten], ['Giới tính', p.Gioi_Tinh], ['Chi', p.Chi],
-      ['Năm sinh', p.Nam_Sinh], ['Năm mất', p.Nam_Mat], ['SĐT', p.So_Dien_Thoai],
-      ['Email', p.Email], ['Quê quán', p.QueQuan], ['Địa chỉ', p.DiaChiHienTai],
-      ['Nghề nghiệp', p.NgheNghiep], ['Nơi đặt mộ', p.NoiDatMo], ['Ảnh URL', p.AnhURL],
-    ].filter(([,v]) => v && v !== '' && v !== '0');
-
-    return `<div class="pending-card" id="pc-${i}">
+  if (!pendingItems.length) { document.getElementById('pendingList').innerHTML='<div class="empty-state">✅ Không có đề xuất nào đang chờ duyệt.</div>'; return; }
+  document.getElementById('pendingList').innerHTML = pendingItems.map((p,i) => {
+    const fields = [['Loại',p.Type==='update'?'Cập nhật':'Bổ sung mới'],['Họ tên',p.HoTen],['Chi',p.ChiHo],['Năm sinh',p.NamSinh],['SĐT',p.SoDienThoai],['Email',p.Email],['Nơi ở',p.NoiO],['Nghề nghiệp',p.NgheNghiep]].filter(([,v])=>v&&v!=='');
+    return `<div class="pending-card">
       <div class="pc-header">
         <input type="checkbox" class="pending-check" data-idx="${i}" onchange="updateSelectedCount()">
-        <div class="pc-title">
-          <strong>${escHtml(p.Ho_Ten||'Không tên')}</strong>
-          <div class="pc-meta">
-            📅 ${p.Timestamp ? new Date(p.Timestamp).toLocaleDateString('vi-VN') : '—'} ·
-            👤 ${escHtml(p.Nguoi_De_Xuat||'—')}
-            ${p.ID_Ref ? ' · Cập nhật ID: ' + p.ID_Ref : ' · Bổ sung mới'}
-          </div>
+        <div class="pc-title"><strong>${esc(p.HoTen||'Không tên')}</strong>
+          <div class="pc-meta">📅 ${p.Timestamp?new Date(p.Timestamp).toLocaleDateString('vi-VN'):'—'} · 👤 ${esc(p.Nguoi_De_Xuat||'—')}</div>
         </div>
       </div>
-      <div class="pc-fields">
-        ${fields.map(([l,v]) => `<dt>${l}:</dt><dd>${escHtml(String(v))}</dd> &nbsp; `).join('')}
-        ${p.Ghi_Chu ? `<br><dt>Ghi chú:</dt><dd>${escHtml(p.Ghi_Chu)}</dd>` : ''}
-      </div>
+      <div class="pc-fields">${fields.map(([l,v])=>`<strong>${l}:</strong> ${esc(String(v))} &nbsp;`).join('')}${p.GhiChu?`<br><strong>Ghi chú:</strong> ${esc(p.GhiChu)}`:''}</div>
       <div class="pc-actions">
         <button class="btn btn-gold btn-sm" onclick="approveSingle(${i})">✅ Duyệt</button>
         <button class="btn btn-danger btn-sm" onclick="rejectSingle(${i})">❌ Từ chối</button>
@@ -1053,112 +617,46 @@ function renderPendingList() {
   }).join('');
 }
 
-function toggleCheckAll(cb) {
-  document.querySelectorAll('.pending-check').forEach(c => c.checked = cb.checked);
-  updateSelectedCount();
-}
-
-function updateSelectedCount() {
-  const n = document.querySelectorAll('.pending-check:checked').length;
-  document.getElementById('selectedCount').textContent = n ? `Đã chọn ${n}` : '';
-}
-
-function getCheckedIndices() {
-  return Array.from(document.querySelectorAll('.pending-check:checked')).map(c => Number(c.dataset.idx));
-}
+function toggleCheckAll(cb) { document.querySelectorAll('.pending-check').forEach(c=>c.checked=cb.checked); updateSelectedCount(); }
+function updateSelectedCount() { const n=document.querySelectorAll('.pending-check:checked').length; document.getElementById('selectedCount').textContent=n?`Đã chọn ${n}`:''; }
+function getChecked() { return Array.from(document.querySelectorAll('.pending-check:checked')).map(c=>Number(c.dataset.idx)); }
 
 async function approveSingle(idx) { await doApprove([idx]); }
 async function rejectSingle(idx) { await doReject([idx]); }
-async function batchApprove() {
-  const indices = getCheckedIndices();
-  if (!indices.length) { alert('Chưa chọn đề xuất nào.'); return; }
-  await doApprove(indices);
-}
-async function batchReject() {
-  const indices = getCheckedIndices();
-  if (!indices.length) { alert('Chưa chọn đề xuất nào.'); return; }
-  await doReject(indices);
-}
+async function batchApprove() { const ids=getChecked(); if(!ids.length){alert('Chưa chọn đề xuất nào.');return;} await doApprove(ids); }
+async function batchReject()  { const ids=getChecked(); if(!ids.length){alert('Chưa chọn đề xuất nào.');return;} await doReject(ids); }
 
 async function doApprove(indices) {
-  const items = indices.map(i => pendingItems[i]).filter(Boolean);
-  if (!items.length) return;
-  showAlert('adminAlert', 'info', `⏳ Đang duyệt ${items.length} đề xuất...`);
+  const items = indices.map(i=>pendingItems[i]).filter(Boolean);
+  showAlert('adminAlert','info',`⏳ Đang duyệt ${items.length} đề xuất...`);
   try {
-    const res = await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      body: JSON.stringify({ action: 'approveBatch', items, adminEmail: currentAdminEmail })
-    });
+    const res = await fetch(APPS_SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'approveBatch', items, adminEmail:currentAdminEmail})});
     const data = await res.json();
-    if (data.success) {
-      showAlert('adminAlert', 'success', `✅ Đã duyệt ${items.length} đề xuất thành công!`);
-      await loadMembers();
-      await loadPending();
-    } else {
-      showAlert('adminAlert', 'error', '❌ Lỗi: ' + (data.message||'Không rõ'));
-    }
-  } catch(e) {
-    showAlert('adminAlert', 'error', '❌ Lỗi kết nối.');
-  }
+    if (data.success) { showAlert('adminAlert','success',`✅ Đã duyệt ${items.length} đề xuất!`); init(); loadPending(); }
+    else showAlert('adminAlert','error','❌ Lỗi: '+(data.message||'Không rõ'));
+  } catch(e) { showAlert('adminAlert','error','❌ Lỗi kết nối.'); }
 }
 
 async function doReject(indices) {
-  const items = indices.map(i => pendingItems[i]).filter(Boolean);
-  if (!items.length) return;
-  const reason = prompt('Lý do từ chối (tùy chọn):') || '';
-  showAlert('adminAlert', 'info', `⏳ Đang từ chối ${items.length} đề xuất...`);
+  const items = indices.map(i=>pendingItems[i]).filter(Boolean);
+  const reason = prompt('Lý do từ chối (tùy chọn):')||'';
+  showAlert('adminAlert','info',`⏳ Đang từ chối ${items.length} đề xuất...`);
   try {
-    const res = await fetch(APPS_SCRIPT_URL, {
-      method: 'POST',
-      body: JSON.stringify({ action: 'rejectBatch', items, reason, adminEmail: currentAdminEmail })
-    });
+    const res = await fetch(APPS_SCRIPT_URL, {method:'POST', body:JSON.stringify({action:'rejectBatch', items, reason, adminEmail:currentAdminEmail})});
     const data = await res.json();
-    if (data.success) {
-      showAlert('adminAlert', 'success', `✅ Đã từ chối ${items.length} đề xuất.`);
-      await loadPending();
-    } else {
-      showAlert('adminAlert', 'error', '❌ Lỗi: ' + (data.message||'Không rõ'));
-    }
-  } catch(e) {
-    showAlert('adminAlert', 'error', '❌ Lỗi kết nối.');
-  }
+    if (data.success) { showAlert('adminAlert','success',`✅ Đã từ chối ${items.length} đề xuất.`); loadPending(); }
+    else showAlert('adminAlert','error','❌ Lỗi: '+(data.message||'Không rõ'));
+  } catch(e) { showAlert('adminAlert','error','❌ Lỗi kết nối.'); }
 }
 
-// ===== PROPOSE UPDATE SHORTCUT =====
-function proposeUpdateFor(id, name) {
-  closeMemberModalDirect();
-  switchTabDirect('propose');
-  document.getElementById('proposeType').value = 'update';
-  toggleProposeType();
-  selectMemberForUpdate(id, name, '', '');
+// === UTILS ===
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function showAlert(id, type, msg) {
+  document.getElementById(id).innerHTML=`<div class="alert alert-${type}">${msg}</div>`;
+  if (type==='success') setTimeout(()=>{const el=document.getElementById(id);if(el)el.innerHTML='';},5000);
 }
+document.addEventListener('click', e => { if(!e.target.closest('.search-member-box')) { const dd=document.getElementById('updateSearchDropdown'); if(dd) dd.style.display='none'; } });
 
-function switchTabDirect(tab) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + tab).classList.add('active');
-  document.querySelectorAll('nav button')[['home','tree','propose','admin'].indexOf(tab)]?.classList.add('active');
-}
-
-// ===== UTILS =====
-function escHtml(str) {
-  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-}
-
-function showAlert(containerId, type, msg) {
-  document.getElementById(containerId).innerHTML = `<div class="alert alert-${type}">${msg}</div>`;
-  if (type === 'success') setTimeout(() => { const el = document.getElementById(containerId); if(el) el.innerHTML=''; }, 5000);
-}
-
-// Close dropdown when clicking outside
-document.addEventListener('click', e => {
-  if (!e.target.closest('.search-member-box')) {
-    const dd = document.getElementById('updateSearchDropdown');
-    if (dd) dd.style.display = 'none';
-  }
-});
-
-// ===== START =====
 init();
 </script>
 </body>
